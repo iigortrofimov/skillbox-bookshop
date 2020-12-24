@@ -1,0 +1,30 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SignUp page</title>
+    <meta charset="UTF-8">
+    <style>
+        #signup_form {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .signup_item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="signup_form">
+    <form method="post" th:action="@{/signup/register}" th:object="${SignUpForm}">
+        <input class="signup_item" type="text" placeholder="enter username" th:field="*{username}">
+        <br>
+        <input class="signup_item" type="password" placeholder="enter password" th:field="*{password}">
+        <br>
+        <input class="signup_item" type="submit" value="Sign Up">
+    </form>
+</div>
+
+</body>
+</html>
