@@ -31,17 +31,20 @@
 </head>
 <body>
 <div id="root_container">
-    <form method="post" th:action="@{/books/save}" th:object="${book}">
+    <form method="post" th:action="@{/books/save}" th:object="${bookDto}">
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="author" th:field="*{author}">
+                    <input type="text" placeholder="Author name" th:field="*{authorName}">
+                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's name!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="book_title" th:field="*{title}">
+                    <input type="text" placeholder="Book title" th:field="*{title}">
+                    <p th:if="${#fields.hasErrors('title')}">Wrong book's title!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="size (pages)" th:field="*{size}">
+                    <input type="text" placeholder="Size (pages)" th:field="*{size}">
+                    <p th:if="${#fields.hasErrors('size')}">Wrong book's size!</p>
                 </td>
                 <td>
                     <input type="submit" value="Save">
@@ -50,24 +53,40 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/remove}">
+    <form method="post" th:action="@{/books/remove}" th:object="${bookDto}">
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="id number" th:name="bookIdToRemove">
+                    <input type="text" placeholder="Id number" th:field="*{id}">
+                     <p th:if="${#fields.hasErrors('id')}">Wrong id!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="Author name" th:name="authorName">
+                    <input type="text" placeholder="Author name" th:field="*{authorName}">
+                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's name!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="Title" th:name="title">
+                    <input type="text" placeholder="Book titile" th:field="*{title}">
+                    <p th:if="${#fields.hasErrors('title')}">Wrong book's title!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="Size" th:name="size">
+                    <input type="text" placeholder="Size (pages)" th:field="*{size}">
+                    <p th:if="${#fields.hasErrors('size')}">Wrong book's size!</p>
                 </td>
                 <td>
                     <input type="submit" value="Remove">
                 </td>
+              <!--  <td th:if="${#fields.hasErrors('id')}">
+                    <p>Wrong id</p>
+                </td>
+                <td th:if="${#fields.hasErrors('authorName')}">
+                    <p>Wrong authorName</p>
+                </td>
+                <td th:if="${#fields.hasErrors('title')}">
+                    <p>Wrong title</p>
+                </td>
+                <td th:if="${#fields.hasErrors('size')}">
+                    <p>Wrong size</p>
+                </td>-->
             </tr>
         </table>
     </form>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Custom 404 Error Page</title>
 </head>
 <body>
 <h1>Custom Book Shelf 404 Error page (Not Found)</h1>
-<a href="./login">Back to login page</a>
+<p th:text="${errorMessage}"></p>
+<a href="/login">Back to login page</a>
 </body>
 </html>

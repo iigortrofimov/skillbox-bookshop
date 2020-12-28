@@ -1,16 +1,22 @@
 package org.example.web.dto;
 
 public class Book {
-    private String id;
+    private Integer id;
     private String author;
     private String title;
     private Integer size;
 
-    public String getId() {
+    public Book(BookDto bookDto) {
+        this.author = bookDto.getAuthorName();
+        this.title = bookDto.getTitle();
+        this.size = bookDto.getSize();
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
