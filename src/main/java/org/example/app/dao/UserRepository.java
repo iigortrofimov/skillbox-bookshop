@@ -30,11 +30,11 @@ public class UserRepository implements ProjectRepository<User>, ApplicationConte
             user.setId(context.getBean(IdProvider.class).provideId(user));
             userRepo.add(user);
         }
-        logger.info("User with this name: " + user.getName() + " already exists!");
+        logger.info("User with this name: " + user.getUsername() + " already exists!");
     }
 
     @Override
-    public boolean removeItemById(String userId) {
+    public boolean removeItemById(Integer userId) {
         for (User user : retrieveAll()) {
             if (user.getId().equals(userId)) {
                 logger.info("remove user completed: " + user);
@@ -46,7 +46,7 @@ public class UserRepository implements ProjectRepository<User>, ApplicationConte
 
     public User retrieveByUserName(String userName) {
         for (User user : retrieveAll()) {
-            if (user.getName().equals(userName)) {
+            if (user.getUsername().equals(userName)) {
                 logger.info("returned user: " + user);
                 return user;
             }

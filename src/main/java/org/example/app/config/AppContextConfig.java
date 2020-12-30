@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppContextConfig {
 
     @Bean
-    public IdProvider idProvider(){
+    public IdProvider idProvider() {
         return new IdProvider();
     }
 }

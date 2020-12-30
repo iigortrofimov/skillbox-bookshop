@@ -13,8 +13,8 @@ public class IdProvider implements InitializingBean, DisposableBean, BeanPostPro
 
     private Logger logger = Logger.getLogger(IdProvider.class);
 
-    public String provideId(Object object) {
-        return this.hashCode() + "_" + object.hashCode();
+    public Integer provideId(Object object) {
+        return this.hashCode() + object.hashCode();
     }
 
     private void initIdProvider() {

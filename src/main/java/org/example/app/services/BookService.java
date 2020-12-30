@@ -1,7 +1,7 @@
 package org.example.app.services;
 
 import org.example.app.dao.ProjectRepository;
-import org.example.web.dto.Book;
+import org.example.app.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -29,19 +29,19 @@ public class BookService {
         }
     }
 
-    public void removeBookById(String bookIdToRemove) {
+    public void removeBookById(Integer bookIdToRemove) {
         bookRepo.removeItemById(bookIdToRemove);
     }
 
     public void removeAllBooksByAuthorName(String authorName) {
         bookRepo.retrieveAll().stream()
-                .filter(book -> book.getAuthor().equals(authorName))
+                .filter(book -> book.getAuthor().equalsIgnoreCase(authorName))
                 .forEach(book -> removeBookById(book.getId()));
     }
 
     public void removeBooksByTitle(String bookTitle) {
         bookRepo.retrieveAll().stream()
-                .filter(book -> book.getTitle().equals(bookTitle))
+                .filter(book -> book.getTitle().equalsIgnoreCase(bookTitle))
                 .forEach(book -> removeBookById(book.getId()));
     }
 

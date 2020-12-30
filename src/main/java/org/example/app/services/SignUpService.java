@@ -22,8 +22,8 @@ public class SignUpService {
 
     private User mapUser(SignUpForm form) {
         User user = new User();
-        user.setId(String.valueOf(user.hashCode()));
-        user.setName(form.getUsername());
+        user.setId(user.hashCode());
+        user.setUsername(form.getUsername());
         user.setPassword(form.getPassword());
         return user;
     }
