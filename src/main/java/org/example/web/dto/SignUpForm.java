@@ -1,7 +1,12 @@
 package org.example.web.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class SignUpForm {
+
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
 
     public SignUpForm(String username, String password) {
@@ -35,4 +40,5 @@ public class SignUpForm {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

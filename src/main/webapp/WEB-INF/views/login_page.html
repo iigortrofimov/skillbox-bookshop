@@ -23,17 +23,18 @@
     </style>
 </head>
 <body>
+
 <div id="login_form">
-    <form method="post" th:action="@{/login/auth}" th:object="${loginForm}">
-        <img class="login_item" th:src="@{/images/book_icon.png}">
-        <br>
-        <input class="login_item" type="text" placeholder="enter username" th:field="*{username}">
-        <br>
-        <input class="login_item" type="password" placeholder="password" th:field="*{password}">
-        <br>
-        <input class="login_item" type="submit" value="login">
+    <img th:src="@{/images/book_icon.png}"/>
+    <form method="post" th:action="@{/login}" id="loginForm">
+        <label for="username">Username: </label>
+        <input class="login_item" type="text" name="username" id="username"/><br/>
+        <label for="password">Password: </label>
+        <input class="login_item" type="password" name="password" id="password"/><br/>
+        <input class="login_item" type="submit" value="Login"/>
     </form>
 </div>
+
 
 <div id="signup_button">
     <form method="get" th:action="@{/signup}">

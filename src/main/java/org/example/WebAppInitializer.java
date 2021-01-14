@@ -37,4 +37,5 @@ public class WebAppInitializer implements WebApplicationInitializer {
         h2Servlet.setLoadOnStartup(2);
         h2Servlet.addMapping("/console/*");
     }
+
 }

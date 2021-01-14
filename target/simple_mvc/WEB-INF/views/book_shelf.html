@@ -35,8 +35,8 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="Author username" th:field="*{authorName}">
-                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's username!</p>
+                    <input type="text" placeholder="Author name" th:field="*{authorName}">
+                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's name!</p>
                 </td>
                 <td>
                     <input type="text" placeholder="Book title" th:field="*{title}">
@@ -61,8 +61,8 @@
                     <p th:if="${#fields.hasErrors('id')}">Wrong id!</p>
                 </td>
                 <td>
-                    <input type="text" placeholder="Author username" th:field="*{authorName}">
-                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's username!</p>
+                    <input type="text" placeholder="Author name" th:field="*{authorName}">
+                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's name!</p>
                 </td>
                 <td>
                     <input type="text" placeholder="Book title" th:field="*{title}">
@@ -83,8 +83,8 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="Author username" th:field="*{authorName}">
-                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's username!</p>
+                    <input type="text" placeholder="Author name" th:field="*{authorName}">
+                    <p th:if="${#fields.hasErrors('authorName')}">Wrong author's name!</p>
                 </td>
                 <td>
                     <input type="text" placeholder="Book title" th:field="*{title}">
@@ -120,7 +120,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="file" username="file">
+                    <input type="file" name="file">
                 </td>
                 <td>
                     <input type="submit" value="Upload">
@@ -133,7 +133,7 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="File username (Copy username from list)" th:username="fileName">
+                    <input type="text" placeholder="File name (Copy name from list)" th:name="fileName">
                 </td>
                 <td>
                     <input type="submit" value="Download">

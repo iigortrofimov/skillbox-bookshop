@@ -14,7 +14,7 @@ public class IdProvider implements InitializingBean, DisposableBean, BeanPostPro
     private Logger logger = Logger.getLogger(IdProvider.class);
 
     public Integer provideId(Object object) {
-        return this.hashCode() + object.hashCode();
+        return object.hashCode();
     }
 
     private void initIdProvider() {
@@ -64,4 +64,5 @@ public class IdProvider implements InitializingBean, DisposableBean, BeanPostPro
     public void preDestroyProvider() {
         logger.info("PreDestroy annotated method invoked");
     }
+
 }

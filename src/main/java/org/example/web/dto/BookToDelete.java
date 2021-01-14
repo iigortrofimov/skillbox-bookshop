@@ -48,4 +48,5 @@ public class BookToDelete {
     public void setSize(Integer size) {
         this.size = size;
     }
+
 }

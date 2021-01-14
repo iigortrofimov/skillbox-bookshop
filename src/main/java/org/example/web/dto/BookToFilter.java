@@ -37,4 +37,5 @@ public class BookToFilter {
     public void setSize(Integer size) {
         this.size = size;
     }
+
 }

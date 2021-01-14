@@ -29,8 +29,9 @@ public class UserRepository implements ProjectRepository<User>, ApplicationConte
         if (!userRepo.contains(user)) {
             user.setId(context.getBean(IdProvider.class).provideId(user));
             userRepo.add(user);
+        } else {
+            logger.info("User with this name: " + user.getUsername() + " already exists!");
         }
-        logger.info("User with this name: " + user.getUsername() + " already exists!");
     }
 
     @Override
@@ -58,4 +59,5 @@ public class UserRepository implements ProjectRepository<User>, ApplicationConte
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
     }
+
 }

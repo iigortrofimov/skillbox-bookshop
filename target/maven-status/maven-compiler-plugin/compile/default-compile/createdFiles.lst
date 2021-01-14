@@ -1,6 +1,3 @@
 org\example\app\services\BookService.class
-org\example\app\services\LoginService.class
 org\example\web\controllers\BookShelfController.class
-org\example\app\services\UserDetailsServiceImpl.class
-org\example\web\controllers\LoginController.class
 org\example\web\dto\LoginForm.class

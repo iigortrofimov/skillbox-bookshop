@@ -14,14 +14,6 @@ public class Book {
         this.size = bookToSave.getSize();
     }
 
-/*
-    public Book(BookToDelete bookToDelete) {
-        this.author = bookToDelete.getAuthorName();
-        this.title = bookToDelete.getTitle();
-        this.size = bookToDelete.getSize();
-    }
-*/
-
     public Book() {
     }
 
@@ -66,4 +58,5 @@ public class Book {
                 ", size=" + size +
                 '}';
     }
+    
 }

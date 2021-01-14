@@ -36,4 +36,5 @@ public class LoginForm {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

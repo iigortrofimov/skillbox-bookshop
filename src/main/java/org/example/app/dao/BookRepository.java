@@ -15,9 +15,7 @@ import java.util.List;
 public class BookRepository implements ProjectRepository<Book>, ApplicationContextAware {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
-    //private final List<Book> repo = new ArrayList<>();
     private ApplicationContext context;
-
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     public BookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -60,4 +58,5 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
     }
+
 }

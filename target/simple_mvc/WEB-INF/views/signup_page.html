@@ -19,8 +19,10 @@
 <div id="signup_form">
     <form method="post" th:action="@{/signup/register}" th:object="${SignUpForm}">
         <input class="signup_item" type="text" placeholder="enter username" th:field="*{username}">
+        <p th:if="${#fields.hasErrors('username')}">Not Null!</p>
         <br>
         <input class="signup_item" type="password" placeholder="enter password" th:field="*{password}">
+        <p th:if="${#fields.hasErrors('password')}">Not Null!</p>
         <br>
         <input class="signup_item" type="submit" value="Sign Up">
     </form>
