@@ -11,6 +11,8 @@ public class WebContextConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/genres/index.html").setViewName("genres/index.html");
         registry.addViewController("/index.html").setViewName("redirect:/bookshop/main");
+        registry.addViewController("/genres/slug.html").setViewName("genres/slug.html");
+        registry.addViewController("/authors/slug.html").setViewName("authors/slug.html");
     }
 
 }

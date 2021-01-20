@@ -1,9 +1,24 @@
 DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS authors;
 
-CREATE TABLE  books(
-id INT AUTO_INCREMENT PRIMARY KEY,
-author VARCHAR(250) NOT NULL,
-title VARCHAR(250) NOT NULL,
-priceOld  VARCHAR(250) DEFAULT NULL,
-price VARCHAR(250) DEFAULT NULL
+CREATE TABLE books
+(
+  id       INT PRIMARY KEY,
+  title    VARCHAR(250) NOT NULL,
+  priceOld VARCHAR(250) DEFAULT NULL,
+  price    VARCHAR(250) DEFAULT NULL
+);
+
+CREATE TABLE authors
+(
+  id        INT PRIMARY KEY,
+  firstName VARCHAR(250) NOT NULL,
+  lastName  VARCHAR(250) NOT NULL
+);
+
+create table authors_books
+(
+  book_id   INT NOT NULL,
+  author_id INT NOT NULL,
+  PRIMARY KEY (book_id, author_id)
 );
