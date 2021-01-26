@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS authors_books;
 
 CREATE TABLE books
 (
@@ -16,7 +17,7 @@ CREATE TABLE authors
   lastName  VARCHAR(250) NOT NULL
 );
 
-create table authors_books
+CREATE TABLE authors_books
 (
   book_id   INT NOT NULL,
   author_id INT NOT NULL,
