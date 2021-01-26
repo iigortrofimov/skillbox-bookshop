@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<header class="Header" th:fragment="headFragment">
+<header class="Header" th:fragment="headerFragment">
     <div class="Header-rowMain">
         <div class="wrap">
             <div class="row">
@@ -26,7 +26,7 @@
                             <form class="form form_search" action="#" method="post" data-searchlimit="20">
                                 <input class="search-input" id="query" name="query" type="text"
                                        placeholder="Search over 30 million book titles" value=""/>
-                                <button class="search-button" type="submit" name="search" id="search">Поиск
+                                <button class="search-button" type="submit" name="search" id="search" th:text="#{topbar.search}">Поиск
                                 </button>
                             </form>
                         </div>
