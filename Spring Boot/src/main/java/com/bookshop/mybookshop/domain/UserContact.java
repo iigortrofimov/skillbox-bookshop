@@ -45,4 +45,5 @@ public class UserContact {
 
     @Column(nullable = false)
     private String contact;
+
 }

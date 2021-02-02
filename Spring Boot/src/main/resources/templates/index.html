@@ -25,13 +25,13 @@
                                                                           th:text="${book.title}">Title</a>
                                             </strong>
                                             <div class="Card-description"
-                                                 th:text="${book.author.getFirstName() + ' ' +book.author.getLastName()}">
+                                                 th:text="${book.authors.get(0).getFirstName() + ' ' +book.authors.get(0).getLastName()}">
                                                 Author
                                             </div>
                                             <div class="Card-cost"><span class="Card-priceOld"
                                                                          th:text="${book.price}">₽ Price Old</span><span
                                                     class="Card-price"
-                                                    th:text="${book.price - (book.getDiscount * 0.01 * book.getPrice)}">₽ Price</span>
+                                                    th:text="${#numbers.formatDecimal(book.price - (book.getDiscount * 0.01 * book.getPrice), 3, 0)}">₽ Price</span>
                                             </div>
                                         </div>
                                     </div>

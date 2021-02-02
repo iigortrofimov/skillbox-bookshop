@@ -79,8 +79,8 @@ public class Book {
     @ManyToMany
     @JoinTable(
             name = "books_users",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            joinColumns = @JoinColumn(name = "book_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false)
     )
     private List<User> users = new ArrayList<>();
 
