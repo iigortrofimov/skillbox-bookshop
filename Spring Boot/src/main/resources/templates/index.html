@@ -29,9 +29,9 @@
                                                 Author
                                             </div>
                                             <div class="Card-cost"><span class="Card-priceOld"
-                                                                         th:text="${book.priceOld}">₽ Price Old</span><span
+                                                                         th:text="${book.price}">₽ Price Old</span><span
                                                     class="Card-price"
-                                                    th:text="${book.price}">₽ Price</span>
+                                                    th:text="${book.price - (book.getDiscount * 0.01 * book.getPrice)}">₽ Price</span>
                                             </div>
                                         </div>
                                     </div>

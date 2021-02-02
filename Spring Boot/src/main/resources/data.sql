@@ -1,209 +1,61 @@
-insert into books (id, title, priceOld, price)
-values (1, 'exploit real-time e-commerce', '$203.23', '$43.37');
-insert into authors (id, firstName, lastName)
-values (1, 'Drucie', 'Goodbourn');
-insert into authors_books (book_id, author_id)
-values (1, 1);
+/*insert into authors (id, first_name, last_name) values (1, 'Shaylah', 'Croy');
+insert into authors (id, first_name, last_name) values (2, 'Constantin', 'Howis');
+insert into authors (id, first_name, last_name) values (3, 'Yasmeen', 'Vannuccini');
+insert into authors (id, first_name, last_name) values (4, 'Silvanus', 'Height');
+insert into authors (id, first_name, last_name) values (5, 'Emmey', 'Iacomo');
+insert into authors (id, first_name, last_name) values (6, 'Kelby', 'Garter');
+insert into authors (id, first_name, last_name) values (7, 'Holly-anne', 'Gittose');
+insert into authors (id, first_name, last_name) values (8, 'Mohammed', 'Waddams');
+insert into authors (id, first_name, last_name) values (9, 'Charleen', 'Boult');
+insert into authors (id, first_name, last_name) values (10, 'Sarette', 'Echalie');
+insert into authors (id, first_name, last_name) values (11, 'Lindsay', 'Mardoll');
+insert into authors (id, first_name, last_name) values (12, 'Ruthie', 'Van Arsdale');
+insert into authors (id, first_name, last_name) values (13, 'Mariele', 'Grigoroni');
+insert into authors (id, first_name, last_name) values (14, 'Annice', 'Tabord');
+insert into authors (id, first_name, last_name) values (15, 'Dahlia', 'Manvelle');
+insert into authors (id, first_name, last_name) values (16, 'Sterne', 'Geyton');
+insert into authors (id, first_name, last_name) values (17, 'Crystal', 'McAllen');
+insert into authors (id, first_name, last_name) values (18, 'Kendricks', 'Semble');
+insert into authors (id, first_name, last_name) values (19, 'Cesare', 'Brader');
+insert into authors (id, first_name, last_name) values (20, 'Emelita', 'Jolliff');
+insert into authors (id, first_name, last_name) values (21, 'Linell', 'Doget');
+insert into authors (id, first_name, last_name) values (22, 'Brade', 'Voules');
+insert into authors (id, first_name, last_name) values (23, 'Janel', 'Wardlow');
+insert into authors (id, first_name, last_name) values (24, 'Peggie', 'Rapa');
+insert into authors (id, first_name, last_name) values (25, 'Ibrahim', 'Clac');
+insert into authors (id, first_name, last_name) values (26, 'Kilian', 'Gommowe');
+insert into authors (id, first_name, last_name) values (27, 'Editha', 'Wingar');
+insert into authors (id, first_name, last_name) values (28, 'Nowell', 'Rome');
+insert into authors (id, first_name, last_name) values (29, 'Raimondo', 'Kornel');
+insert into authors (id, first_name, last_name) values (30, 'Nev', 'Gilligan');
 
-insert into books (id, title, priceOld, price)
-values (2, 'utilize real-time interfaces', '$260.31', '$35.96');
-insert into authors (id, firstName, lastName)
-values (2, 'Marcia', 'Aggiss');
-insert into authors_books (book_id, author_id)
-values (2, 2);
-
-insert into books (id, title, priceOld, price)
-values (3, 'extend strategic e-services', '$272.00', '$151.04');
-insert into authors (id, firstName, lastName)
-values (3, 'Giovanni', 'Bigg');
-insert into authors_books (book_id, author_id)
-values (3, 3);
-
-
-insert into books (id, title, priceOld, price)
-values (4, 'iterate integrated solutions', '$271.58', '$141.40');
-insert into authors (id, firstName, lastName)
-values (4, 'Duffie', 'Eynon');
-insert into authors_books (book_id, author_id)
-values (4, 4);
-
-insert into books (id, title, priceOld, price)
-values (5, 'cultivate magnetic e-commerce', '$278.43', '$54.44');
-insert into authors (id, firstName, lastName)
-values (5, 'Anselma', 'McKennan');
-insert into authors_books (book_id, author_id)
-values (5, 5);
-
-insert into books (id, title, priceOld, price)
-values (6, 'architect vertical ROI', '$282.54', '$102.61');
-insert into authors (id, firstName, lastName)
-values (6, 'Gert', 'Kira');
-insert into authors_books (book_id, author_id)
-values (6, 6);
-
-insert into books (id, title, priceOld, price)
-values (7, 'disintermediate extensible architectures', '$295.38', '$181.27');
-insert into authors (id, firstName, lastName)
-values (7, 'Clerc', 'Djakovic');
-insert into authors_books (book_id, author_id)
-values (7, 7);
-
-
-insert into books (id, title, priceOld, price)
-values (8, 'extend leading-edge methodologies', '$283.08', '$97.96');
-insert into authors (id, firstName, lastName)
-values (8, 'Stacee', 'Elsy');
-insert into authors_books (book_id, author_id)
-values (8, 8);
-
-
-insert into books (id, title, priceOld, price)
-values (9, 'integrate one-to-one systems', '$258.51', '$52.25');
-insert into authors (id, firstName, lastName)
-values (9, 'Dorotea', 'Bonhill');
-insert into authors_books (book_id, author_id)
-values (9, 9);
-
-
-insert into books (id, title, priceOld, price)
-values (10, 'revolutionize 24/7 infrastructures', '$260.79', '$33.69');
-insert into authors (id, firstName, lastName)
-values (10, 'Minni', 'Bunney');
-insert into authors_books (book_id, author_id)
-values (10, 10);
-
-
-insert into books (id, title, priceOld, price)
-values (11, 'enhance innovative e-services', '$256.54', '$160.98');
-insert into authors (id, firstName, lastName)
-values (11, 'Berty', 'Gandley');
-insert into authors_books (book_id, author_id)
-values (11, 11);
-
-
-insert into books (id, title, priceOld, price)
-values (12, 'maximize 24/365 e-tailers', '$262.07', '$34.06');
-insert into authors (id, firstName, lastName)
-values (12, 'Raynard', 'Tesdale');
-insert into authors_books (book_id, author_id)
-values (12, 12);
-
-
-insert into books (id, title, priceOld, price)
-values (13, 'scale integrated architectures', '$257.66', '$32.97');
-insert into authors (id, firstName, lastName)
-values (13, 'Joanna', 'Hutfield');
-insert into authors_books (book_id, author_id)
-values (13, 13);
-
-
-insert into books (id, title, priceOld, price)
-values (14, 'e-enable frictionless web services', '$288.19', '$90.52');
-insert into authors (id, firstName, lastName)
-values (14, 'Dannie', 'Glidder');
-insert into authors_books (book_id, author_id)
-values (14, 14);
-
-
-insert into books (id, title, priceOld, price)
-values (15, 'strategize B2B channels', '$232.27', '$44.83');
-insert into authors (id, firstName, lastName)
-values (15, 'Timmie', 'Adshede');
-insert into authors_books (book_id, author_id)
-values (15, 15);
-
-
-insert into books (id, title, priceOld, price)
-values (16, 'syndicate compelling deliverables', '$287.45', '$101.89');
-insert into authors (id, firstName, lastName)
-values (16, 'Fernando', 'Neads');
-insert into authors_books (book_id, author_id)
-values (16, 16);
-
-
-insert into books (id, title, priceOld, price)
-values (17, 'utilize bleeding-edge users', '$281.37', '$146.21');
-insert into authors (id, firstName, lastName)
-values (17, 'Teddy', 'Guilliland');
-insert into authors_books (book_id, author_id)
-values (17, 17);
-
-
-insert into books (id, title, priceOld, price)
-values (18, 'cultivate 24/365 networks', '$270.99', '$184.76');
-insert into authors (id, firstName, lastName)
-values (18, 'Paloma', 'Grebert');
-insert into authors_books (book_id, author_id)
-values (18, 18);
-
-
-insert into books (id, title, priceOld, price)
-values (19, 'embrace plug-and-play platforms', '$278.36', '$77.71');
-insert into authors (id, firstName, lastName)
-values (19, 'Kristos', 'Usher');
-insert into authors_books (book_id, author_id)
-values (19, 19);
-
-
-
-insert into books (id, title, priceOld, price)
-values (20, 'target innovative paradigms', '$298.94', '$130.01');
-insert into authors (id, firstName, lastName)
-values (20, 'Darcey', 'Rohmer');
-insert into authors_books (book_id, author_id)
-values (20, 20);
-
-
-insert into books (id, title, priceOld, price)
-values (21, 'generate open-source e-business', '$276.57', '$113.25');
-insert into authors (id, firstName, lastName)
-values (21, 'Cristie', 'Isacsson');
-insert into authors_books (book_id, author_id)
-values (21, 21);
-
-
-insert into books (id, title, priceOld, price)
-values (22, 'implement user-centric e-markets', '$254.70', '$115.31');
-insert into authors (id, firstName, lastName)
-values (22, 'Lindsay', 'Coutthart');
-insert into authors_books (book_id, author_id)
-values (22, 22);
-
-
-insert into books (id, title, priceOld, price)
-values (23, 'utilize magnetic supply-chains', '$279.70', '$77.86');
-insert into authors (id, firstName, lastName)
-values (23, 'Helyn', 'Schneidar');
-insert into authors_books (book_id, author_id)
-values (23, 23);
-
-
-insert into books (id, title, priceOld, price)
-values (24, 'e-enable dot-com supply-chains', '$297.83', '$110.15');
-insert into authors (id, firstName, lastName)
-values (24, 'Bette-ann', 'Askem');
-insert into authors_books (book_id, author_id)
-values (24, 24);
-
-
-insert into books (id, title, priceOld, price)
-values (25, 'facilitate efficient eyeballs', '$232.30', '$131.48');
-insert into authors (id, firstName, lastName)
-values (25, 'Dom', 'Robuchon');
-insert into authors_books (book_id, author_id)
-values (25, 25);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+insert into books (id, price, price_old, title, author_id, genre) values (1, 331, 1007, 'Home Ing', 16, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (2, 236, 494, 'It', 16, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (3, 992, 747, 'Holdlamis', 20, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (4, 582, 874, 'Bytecard', 16, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (5, 267, 467, 'Holdlamis', 11, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (6, 292, 1002, 'Aerified', 27, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (7, 488, 961, 'Stim', 14, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (8, 617, 634, 'Y-find', 12, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (9, 496, 715, 'Keylex', 13, 'LIGHT');
+insert into books (id, price, price_old, title, author_id, genre) values (10, 529, 951, 'Toughjoyfax', 23, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (11, 678, 437, 'Wrapsafe', 14, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (12, 737, 797, 'Kanlam', 15, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (13, 662, 447, 'Job', 4, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (14, 737, 882, 'Sonair', 11, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (15, 946, 1091, 'Job', 30, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (16, 314, 639, 'Duobam', 3, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (17, 706, 694, 'Cardify', 4, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (18, 643, 1035, 'Flexidy', 19, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (19, 555, 903, 'Aerified', 28, 'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (20, 258, 972, 'Overhold', 19,'SERIOUS');
+insert into books (id, price, price_old, title, author_id, genre) values (21, 825, 834, 'Regrant', 29, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (22, 553, 942, 'Y-Solowarm', 9, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (23, 429, 465, 'Alpha', 12, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (24, 671, 638, 'Otcom', 23, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (25, 724, 728, 'Quo Lux', 18, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (26, 717, 952, 'It', 10, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (27, 734, 758, 'Bitchip', 5, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (28, 733, 1014, 'Lotlux', 9, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (29, 371, 735, 'Opela', 1, 'DRAMATURGY');
+insert into books (id, price, price_old, title, author_id, genre) values (30, 407, 645, 'Ronstring', 29, 'DRAMATURGY');*/
