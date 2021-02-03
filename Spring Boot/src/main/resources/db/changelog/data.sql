@@ -20,7 +20,6 @@ insert into books (id, price, discount, title, slug, pub_date, description, is_b
 insert into books (id, price, discount, title, slug, pub_date, description, is_bestseller) values (20, 344, 6, 'Into the Mind', 'Where the Boys Are ''84', '2020-09-15 07:26:14', 'ut ultrices vel augue vestibulum ante ipsum primis in faucibus orci luctus', false);
 
 
-
 insert into authors (id, first_name, last_name, biography, slug, description) values (1, 'Mable', 'Sparkwill', 'pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur in libero ut', 'ultrices posuere cubilia curae duis faucibus accumsan odio curabitur convallis duis consequat dui nec nisi', 'nam congue risus semper porta volutpat quam pede lobortis ligula sit');
 insert into authors (id, first_name, last_name, biography, slug, description) values (2, 'Mirabelle', 'Graddell', 'at turpis a pede posuere nonummy integer non velit donec diam neque vestibulum eget vulputate ut ultrices vel', 'luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida', 'metus arcu adipiscing molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque eget nunc donec');
 insert into authors (id, first_name, last_name, biography, slug, description) values (3, 'Lonny', 'Alfonsini', 'nibh quisque id justo sit amet sapien dignissim vestibulum vestibulum', 'tortor id nulla ultrices aliquet maecenas leo odio condimentum id luctus nec molestie sed justo', 'at turpis donec posuere metus vitae ipsum aliquam non mauris');
@@ -63,68 +62,3 @@ insert into authors_books (author_id, book_id) values (17, 17);
 insert into authors_books (author_id, book_id) values (18, 18);
 insert into authors_books (author_id, book_id) values (19, 19);
 insert into authors_books (author_id, book_id) values (20, 20);
-
-
-
-
-/*insert into authors (id, first_name, last_name) values (1, 'Shaylah', 'Croy');
-insert into authors (id, first_name, last_name) values (2, 'Constantin', 'Howis');
-insert into authors (id, first_name, last_name) values (3, 'Yasmeen', 'Vannuccini');
-insert into authors (id, first_name, last_name) values (4, 'Silvanus', 'Height');
-insert into authors (id, first_name, last_name) values (5, 'Emmey', 'Iacomo');
-insert into authors (id, first_name, last_name) values (6, 'Kelby', 'Garter');
-insert into authors (id, first_name, last_name) values (7, 'Holly-anne', 'Gittose');
-insert into authors (id, first_name, last_name) values (8, 'Mohammed', 'Waddams');
-insert into authors (id, first_name, last_name) values (9, 'Charleen', 'Boult');
-insert into authors (id, first_name, last_name) values (10, 'Sarette', 'Echalie');
-insert into authors (id, first_name, last_name) values (11, 'Lindsay', 'Mardoll');
-insert into authors (id, first_name, last_name) values (12, 'Ruthie', 'Van Arsdale');
-insert into authors (id, first_name, last_name) values (13, 'Mariele', 'Grigoroni');
-insert into authors (id, first_name, last_name) values (14, 'Annice', 'Tabord');
-insert into authors (id, first_name, last_name) values (15, 'Dahlia', 'Manvelle');
-insert into authors (id, first_name, last_name) values (16, 'Sterne', 'Geyton');
-insert into authors (id, first_name, last_name) values (17, 'Crystal', 'McAllen');
-insert into authors (id, first_name, last_name) values (18, 'Kendricks', 'Semble');
-insert into authors (id, first_name, last_name) values (19, 'Cesare', 'Brader');
-insert into authors (id, first_name, last_name) values (20, 'Emelita', 'Jolliff');
-insert into authors (id, first_name, last_name) values (21, 'Linell', 'Doget');
-insert into authors (id, first_name, last_name) values (22, 'Brade', 'Voules');
-insert into authors (id, first_name, last_name) values (23, 'Janel', 'Wardlow');
-insert into authors (id, first_name, last_name) values (24, 'Peggie', 'Rapa');
-insert into authors (id, first_name, last_name) values (25, 'Ibrahim', 'Clac');
-insert into authors (id, first_name, last_name) values (26, 'Kilian', 'Gommowe');
-insert into authors (id, first_name, last_name) values (27, 'Editha', 'Wingar');
-insert into authors (id, first_name, last_name) values (28, 'Nowell', 'Rome');
-insert into authors (id, first_name, last_name) values (29, 'Raimondo', 'Kornel');
-insert into authors (id, first_name, last_name) values (30, 'Nev', 'Gilligan');
-
-insert into books (id, price, price_old, title, author_id, genre) values (1, 331, 1007, 'Home Ing', 16, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (2, 236, 494, 'It', 16, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (3, 992, 747, 'Holdlamis', 20, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (4, 582, 874, 'Bytecard', 16, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (5, 267, 467, 'Holdlamis', 11, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (6, 292, 1002, 'Aerified', 27, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (7, 488, 961, 'Stim', 14, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (8, 617, 634, 'Y-find', 12, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (9, 496, 715, 'Keylex', 13, 'LIGHT');
-insert into books (id, price, price_old, title, author_id, genre) values (10, 529, 951, 'Toughjoyfax', 23, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (11, 678, 437, 'Wrapsafe', 14, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (12, 737, 797, 'Kanlam', 15, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (13, 662, 447, 'Job', 4, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (14, 737, 882, 'Sonair', 11, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (15, 946, 1091, 'Job', 30, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (16, 314, 639, 'Duobam', 3, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (17, 706, 694, 'Cardify', 4, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (18, 643, 1035, 'Flexidy', 19, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (19, 555, 903, 'Aerified', 28, 'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (20, 258, 972, 'Overhold', 19,'SERIOUS');
-insert into books (id, price, price_old, title, author_id, genre) values (21, 825, 834, 'Regrant', 29, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (22, 553, 942, 'Y-Solowarm', 9, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (23, 429, 465, 'Alpha', 12, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (24, 671, 638, 'Otcom', 23, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (25, 724, 728, 'Quo Lux', 18, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (26, 717, 952, 'It', 10, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (27, 734, 758, 'Bitchip', 5, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (28, 733, 1014, 'Lotlux', 9, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (29, 371, 735, 'Opela', 1, 'DRAMATURGY');
-insert into books (id, price, price_old, title, author_id, genre) values (30, 407, 645, 'Ronstring', 29, 'DRAMATURGY');*/
