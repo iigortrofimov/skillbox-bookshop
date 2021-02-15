@@ -1,5 +1,6 @@
 package com.bookshop.mybookshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -30,6 +31,7 @@ public class Author {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "authors_books",

@@ -1,11 +1,7 @@
 package com.bookshop.mybookshop;
 
-import com.bookshop.mybookshop.domain.Author;
-import com.bookshop.mybookshop.domain.Book;
-import com.bookshop.mybookshop.domain.BookTag;
-import com.bookshop.mybookshop.domain.Genre;
-import com.bookshop.mybookshop.dto.AuthorRepository;
-import com.bookshop.mybookshop.dto.BookRepository;
+import com.bookshop.mybookshop.dao.AuthorRepository;
+import com.bookshop.mybookshop.dao.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

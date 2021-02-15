@@ -1,0 +1,36 @@
+package com.bookshop.mybookshop.dao;
+
+import com.bookshop.mybookshop.domain.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BookRepository extends JpaRepository<Book, Integer> {
+
+    List<Book> findByAuthorsFirstName(String firstName);
+
+    List<Book> findByTitleContaining(String title);
+
+    List<Book> findBooksByPriceBetween(Integer min, Integer max);
+
+    List<Book> findBooksByPriceIs(Integer price);
+
+/*    @Query("from Book where isBestseller = TRUE")
+    List<Book> getBestSellers();*/
+
+    List<Book> findByIsBestsellerTrue();
+
+    @Query(value = "select * from books where discount=(SELECT MAX(discount) from books) ", nativeQuery = true)
+    List<Book> getBooksWithMaxDiscount();
+
+    Page<Book> findByTitleContaining(String title, Pageable nextPage);
+
+    Page<Book> findByIsBestsellerTrue(Pageable nextPage);
+
+    Page<Book> findAllByOrderByPublicationDateDesc(Pageable nextPage);
+}

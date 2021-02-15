@@ -130,7 +130,7 @@
             <column defaultValueNumeric="0" name="discount" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="image" type="OID"/>
+            <column name="image" type="VARCHAR(255)"/>
             <column name="is_bestseller" type="BOOL"/>
             <column name="price" type="INT">
                 <constraints nullable="false"/>

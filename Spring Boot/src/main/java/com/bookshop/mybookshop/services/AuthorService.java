@@ -1,7 +1,7 @@
 package com.bookshop.mybookshop.services;
 
 import com.bookshop.mybookshop.domain.Author;
-import com.bookshop.mybookshop.dto.AuthorRepository;
+import com.bookshop.mybookshop.dao.AuthorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
