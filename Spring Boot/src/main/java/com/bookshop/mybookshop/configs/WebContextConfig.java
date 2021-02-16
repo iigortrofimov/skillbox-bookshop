@@ -31,8 +31,8 @@ public class WebContextConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/genres").setViewName("genres/index.html");
-        registry.addViewController("/recent").setViewName("books/recent.html");
-        registry.addViewController("/search/").setViewName("search.html");
+        // registry.addViewController("/recent").setViewName("books/recent.html");
+        // registry.addViewController("/search/").setViewName("search.html");
         registry.addViewController("/popular").setViewName("books/popular.html");
         registry.addViewController("/postponed.html").setViewName("postponed.html");
         registry.addViewController("/cart.html").setViewName("cart.html");

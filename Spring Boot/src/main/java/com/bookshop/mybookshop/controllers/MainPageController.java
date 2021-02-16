@@ -2,6 +2,7 @@ package com.bookshop.mybookshop.controllers;
 
 import com.bookshop.mybookshop.domain.Book;
 import com.bookshop.mybookshop.dto.BooksPageDto;
+import com.bookshop.mybookshop.dto.DateTimeDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.services.BookService;
 import lombok.AllArgsConstructor;
@@ -65,7 +66,12 @@ public class MainPageController {
     @GetMapping("/books/recent")
     @ResponseBody
     public BooksPageDto receiveRecentBooksPage(@RequestParam("offset") Integer offset,
-                                               @RequestParam("limit") Integer limit) {
+                                               @RequestParam("limit") Integer limit,
+                                               @RequestParam(value = "from", required = false) DateTimeDto from,
+                                               @RequestParam(value = "to", required = false) DateTimeDto to) {
+        if (from != null && to != null) {
+            return new BooksPageDto(bookService.receivePageOfRecentBooks(offset, limit, from.getDateTime(), to.getDateTime()).getContent());
+        }
         return new BooksPageDto(bookService.receivePageOfRecentBooks(offset, limit).getContent());
     }
 
@@ -91,6 +97,16 @@ public class MainPageController {
                                                   @RequestParam("offset") Integer offset,
                                                   @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), offset, limit).getContent());
+    }
+
+    @GetMapping("/recent")
+    public String recentBooksPage() {
+        return "/books/recent";
+    }
+
+    @GetMapping("/popular")
+    public String popularBooksPage() {
+        return "/books/popular";
     }
 
 }

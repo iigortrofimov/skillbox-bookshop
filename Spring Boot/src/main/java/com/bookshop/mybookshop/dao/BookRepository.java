@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -33,4 +34,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findByIsBestsellerTrue(Pageable nextPage);
 
     Page<Book> findAllByOrderByPublicationDateDesc(Pageable nextPage);
+
+    Page<Book> findByPublicationDateBetween(LocalDateTime from, LocalDateTime to, Pageable nextPage);
 }

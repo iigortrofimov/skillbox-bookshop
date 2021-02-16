@@ -5,9 +5,9 @@ import com.bookshop.mybookshop.domain.Book;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -56,11 +56,12 @@ public class BookService {
         return bookRepository.findByIsBestsellerTrue(PageRequest.of(offset, limit));
     }
 
-
-
-
     public Page<Book> receivePageOfSearchResultBooks(String searchTitle, Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findByTitleContaining(searchTitle, nextPage);
+        return bookRepository.findByTitleContaining(searchTitle, PageRequest.of(offset, limit));
     }
+
+    public Page<Book> receivePageOfRecentBooks(Integer offset, Integer limit, LocalDateTime from, LocalDateTime to) {
+        return bookRepository.findByPublicationDateBetween(from, to, PageRequest.of(offset, limit));
+    }
+
 }
