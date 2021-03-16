@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public List<Book> receiveAllBooks() {
         return bookRepository.findAll();
@@ -53,7 +53,7 @@ public class BookService {
     }
 
     public Page<Book> receivePageOfPopularBooks(Integer offset, Integer limit) {
-        return bookRepository.findByIsBestsellerTrue(PageRequest.of(offset, limit));
+        return bookRepository.findByOrderByPopularityIndexDesc(PageRequest.of(offset, limit));
     }
 
     public Page<Book> receivePageOfSearchResultBooks(String searchTitle, Integer offset, Integer limit) {
@@ -62,6 +62,14 @@ public class BookService {
 
     public Page<Book> receivePageOfRecentBooks(Integer offset, Integer limit, LocalDateTime from, LocalDateTime to) {
         return bookRepository.findByPublicationDateBetween(from, to, PageRequest.of(offset, limit));
+    }
+
+    public Page<Book> receivePageOfBooksWithSpecificTag(String tagName, Integer offset, Integer limit) {
+        return bookRepository.findByBookTagsSlug(tagName, PageRequest.of(offset, limit));
+    }
+
+    public Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit) {
+        return bookRepository.findByGenresSlug(genreName, PageRequest.of(offset, limit));
     }
 
 }

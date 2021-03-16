@@ -1,10 +1,13 @@
 package com.bookshop.mybookshop.controllers;
 
 import com.bookshop.mybookshop.domain.Book;
+import com.bookshop.mybookshop.domain.BookTag;
 import com.bookshop.mybookshop.dto.BooksPageDto;
-import com.bookshop.mybookshop.dto.DateTimeDto;
+import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.services.BookService;
+import com.bookshop.mybookshop.services.GenreService;
+import com.bookshop.mybookshop.services.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,8 @@ import java.util.List;
 public class MainPageController {
 
     private final BookService bookService;
+    private final TagService tagService;
+    private final GenreService genreService;
 
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
@@ -50,44 +55,69 @@ public class MainPageController {
         return new ArrayList<>();
     }
 
-    @GetMapping("/")
+    @ModelAttribute("booksWithXsTag")
+    public List<BookTag> booksWithXsTag() {
+        return tagService.receiveBookTagsWithXsTag();
+    }
 
+    @ModelAttribute("booksWithSmTag")
+    public List<BookTag> booksWithSmTag() {
+        return tagService.receiveBookTagsWithSmTag();
+    }
+
+    @ModelAttribute("booksWithTag")
+    public List<BookTag> booksWithNormalTag() {
+        return tagService.receiveBookTagsWithTag();
+    }
+
+    @ModelAttribute("booksWithMdTag")
+    public List<BookTag> booksWithMdTag() {
+        return tagService.receiveBookTagsWithMdTag();
+    }
+
+    @ModelAttribute("booksWithLgTag")
+    public List<BookTag> booksWithLgTag() {
+        return tagService.receiveBookTagsWithLgTag();
+    }
+
+    @ModelAttribute("genreList")
+    public List<GenreDto> genreList() {
+        return genreService.receiveAllGenresDtoSortedList();
+    }
+
+    @GetMapping("/")
     public String mainPage() {
         return "index";
     }
 
-    @GetMapping("/books/recommended")
-    @ResponseBody
-    public BooksPageDto receiveRecommendedBooksPage(@RequestParam("offset") Integer offset,
-                                                    @RequestParam("limit") Integer limit) {
-        return new BooksPageDto(bookService.receivePageOfRecommendedBooks(offset, limit).getContent());
+    @GetMapping("/recent")
+    public String recentBooksPage() {
+        return "/books/recent";
     }
 
-    @GetMapping("/books/recent")
-    @ResponseBody
-    public BooksPageDto receiveRecentBooksPage(@RequestParam("offset") Integer offset,
-                                               @RequestParam("limit") Integer limit,
-                                               @RequestParam(value = "from", required = false) DateTimeDto from,
-                                               @RequestParam(value = "to", required = false) DateTimeDto to) {
-        if (from != null && to != null) {
-            return new BooksPageDto(bookService.receivePageOfRecentBooks(offset, limit, from.getDateTime(), to.getDateTime()).getContent());
-        }
-        return new BooksPageDto(bookService.receivePageOfRecentBooks(offset, limit).getContent());
+    @GetMapping("/genres")
+    public String genresPage() {
+        return "/genres/index";
     }
 
-    @GetMapping("/books/popular")
-    @ResponseBody
-    public BooksPageDto receivePopularBooksPage(@RequestParam("offset") Integer offset,
-                                                @RequestParam("limit") Integer limit) {
-        return new BooksPageDto(bookService.receivePageOfPopularBooks(offset, limit).getContent());
+/*    @GetMapping("/genres/slug")
+    public String genresSlugPage() {
+        return "/genres/slug";
+    }*/
+
+    @GetMapping("/popular")
+    public String popularBooksPage() {
+        return "/books/popular";
     }
 
     @GetMapping(value = {"/search", "/search/{searchWord}"})
     public String searchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
                                Model model) {
-        model.addAttribute("searchWordDto", searchWordDto);
-        model.addAttribute("searchResults",
-                bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), 0, 20).getContent());
+        if (searchWordDto != null) {
+            model.addAttribute("searchWordDto", searchWordDto);
+            model.addAttribute("searchResults",
+                    bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), 0, 20).getContent());
+        }
         return "search/index";
     }
 
@@ -99,14 +129,20 @@ public class MainPageController {
         return new BooksPageDto(bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), offset, limit).getContent());
     }
 
-    @GetMapping("/recent")
-    public String recentBooksPage() {
-        return "/books/recent";
+    @GetMapping("/tags/{tagName}")
+    public String tagPage(@PathVariable("tagName") String tagName, Model model) {
+        List<Book> bookListWithSpecificTag = bookService.receivePageOfBooksWithSpecificTag(tagName, 0, 20).getContent();
+        model.addAttribute("booksWithSpecificTag", bookListWithSpecificTag);
+        model.addAttribute("tagName", tagName);
+        return "tags/index";
     }
 
-    @GetMapping("/popular")
-    public String popularBooksPage() {
-        return "/books/popular";
+    @GetMapping("/genres/{genreName}")
+    public String genrePage(@PathVariable("genreName") String genreName, Model model) {
+        List<Book> bookListWithSpecificGenre = bookService.receivePageOfBooksWithSpecificGenre(genreName, 0, 20).getContent();
+        model.addAttribute("booksWithSpecificGenre", bookListWithSpecificGenre);
+        model.addAttribute("genreName", genreName);
+        return "genres/slug";
     }
 
 }

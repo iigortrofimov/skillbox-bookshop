@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="itrofimo (generated)" id="1612334465156-1">
+        <createSequence sequenceName="authors_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-2">
+        <createSequence sequenceName="balance_transactions_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-3">
+        <createSequence sequenceName="book_files_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-4">
+        <createSequence sequenceName="book_reviews_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-5">
+        <createSequence sequenceName="books_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-6">
+        <createSequence sequenceName="documents_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-7">
+        <createSequence sequenceName="faq_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-8">
+        <createSequence sequenceName="messages_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-9">
+        <createSequence sequenceName="review_likes_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-10">
+        <createSequence sequenceName="user_contacts_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-11">
+        <createSequence sequenceName="users_id_seq"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-12">
+        <createTable tableName="authors">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="authors_pkey"/>
+            </column>
+            <column name="biography" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo" type="OID"/>
+            <column name="slug" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-13">
+        <createTable tableName="authors_books">
+            <column name="author_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-14">
+        <createTable tableName="balance_transactions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="balance_transactions_pkey"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="value" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-15">
+        <createTable tableName="book_files">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="book_files_pkey"/>
+            </column>
+            <column name="hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="path" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-16">
+        <createTable tableName="book_reviews">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="book_reviews_pkey"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-17">
+        <createTable tableName="books">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="books_pkey"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column defaultValueNumeric="0" name="discount" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="VARCHAR(255)"/>
+            <column name="is_bestseller" type="BOOL"/>
+            <column name="price" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pub_date" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slug" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-18">
+        <createTable tableName="books_genres">
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-19">
+        <createTable tableName="books_tags">
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-20">
+        <createTable tableName="books_users">
+            <column name="book_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-21">
+        <createTable tableName="documents">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="documents_pkey"/>
+            </column>
+            <column name="slug" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="sort_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-22">
+        <createTable tableName="faq">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="faq_pkey"/>
+            </column>
+            <column name="answer" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="question" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="sort_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-23">
+        <createTable tableName="messages">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="messages_pkey"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-24">
+        <createTable tableName="review_likes">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="review_likes_pkey"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_bestseller" type="BOOL"/>
+            <column name="review_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-25">
+        <createTable tableName="user_contacts">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="user_contacts_pkey"/>
+            </column>
+            <column name="approved" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="code_trials" type="INT"/>
+            <column name="contact" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-26">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="balance" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="register_date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-27">
+        <addPrimaryKey columnNames="book_id, tag" constraintName="books_tags_pkey" tableName="books_tags"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-28">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="balance_transactions"
+                                 constraintName="fk1n25pwgitk4x71k2csad9i1xt" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-29">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="authors_books"
+                                 constraintName="fk1qmg0jp4gtkls4bn52xhg4jnf" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="authors"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-30">
+        <addForeignKeyConstraint baseColumnNames="review_id" baseTableName="review_likes"
+                                 constraintName="fk2h26e81iakxd3y1u326pn70t6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="book_reviews"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-31">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_reviews"
+                                 constraintName="fkcm2shivx19spbg0flc47mcrs1" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-32">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="balance_transactions"
+                                 constraintName="fkdgk044yu1nxp7bwyotd4oj0cx" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-33">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="authors_books"
+                                 constraintName="fkhljw0x9o8s80uce55w3iqhlqk" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-34">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="books_users"
+                                 constraintName="fkkn0b6th3avh42vj187mjb5hga" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-35">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="books_genres"
+                                 constraintName="fklv42b6uemg63q27om39jjbt9o" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-36">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="books_users"
+                                 constraintName="fknfk3hcsn0vriponfclyfhfud5" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-37">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="review_likes"
+                                 constraintName="fknual15vv88tiqnwmi60tb2l8d" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-38">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="book_reviews"
+                                 constraintName="fkon3wfhxgwpfu7kl1wu54mw78u" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-39">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="messages"
+                                 constraintName="fkpsmh6clh3csorw43eaodlqvkn" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-40">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_contacts"
+                                 constraintName="fkqgbpf3rh5b6i7npvr2rf776rd" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="itrofimo (generated)" id="1612334465156-41">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="books_tags"
+                                 constraintName="fksy75obpbnp3gaw3q9au2ri3bu" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="books"/>
+    </changeSet>
+</databaseChangeLog>

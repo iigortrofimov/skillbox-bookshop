@@ -20,6 +20,30 @@ public class MyBookShopApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+/*        Book book = new Book();
+        book.setTitle("TITLE1");
+        book.getStatuses().add(BookStatus.PAID);
+        book.getStatuses().add(BookStatus.PAID);
+        book.getStatuses().add(BookStatus.PAID);
+        book.setDiscount(1);
+        Book book1 = new Book();
+        book1.setTitle("TITLE2");
+        book1.getStatuses().add(BookStatus.PAID);
+        book1.getStatuses().add(BookStatus.PAID);
+        book1.getStatuses().add(BookStatus.ARCHIEVED);
+        book1.setDiscount(2);
+        Book book2 = new Book();
+        book2.setTitle("TITLE3");
+        book2.getStatuses().add(BookStatus.PAID);
+        book2.getStatuses().add(BookStatus.CART);
+        book2.setDiscount(3);
+
+        bookRepository.save(book);
+        bookRepository.save(book1);
+        bookRepository.save(book2);*/
+
+
 /*        Book book = new Book();
 
         book.setTitle("TEST");

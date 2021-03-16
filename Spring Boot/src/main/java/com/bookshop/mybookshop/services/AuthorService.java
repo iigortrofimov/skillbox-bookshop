@@ -1,7 +1,7 @@
 package com.bookshop.mybookshop.services;
 
-import com.bookshop.mybookshop.domain.Author;
 import com.bookshop.mybookshop.dao.AuthorRepository;
+import com.bookshop.mybookshop.domain.Author;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AuthorService {
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     public List<Author> receiveAllAuthors() {
         return authorRepository.findAll();

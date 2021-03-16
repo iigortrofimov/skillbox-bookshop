@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -20,12 +21,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @ToString(exclude = "id")
@@ -63,11 +61,10 @@ public class Book {
     @ApiModelProperty("book price")
     private Integer price;
 
-    @CollectionTable(name = "books_genres",
-            joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "genre", nullable = false)
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Genre.class)
+    @ManyToMany
+    @JoinTable(name = "books_genres",
+            joinColumns = @JoinColumn(name = "book_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "genre_id", nullable = false))
     @ApiModelProperty("book genres")
     private List<Genre> genres = new ArrayList<>();
 
@@ -77,13 +74,12 @@ public class Book {
     @ApiModelProperty("image url")
     private String image;
 
-    @CollectionTable(name = "books_tags",
-            joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "tag", nullable = false)
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = BookTag.class)
-    @ApiModelProperty("book tags")
-    private Set<BookTag> bookTags = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "books_tags",
+            joinColumns = @JoinColumn(name = "book_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", nullable = false))
+    @ApiModelProperty("list of book' stags")
+    private List<BookTag> bookTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
     @ApiModelProperty("book reviews")
@@ -99,15 +95,36 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false)
     )
-    @ApiModelProperty("list of users who")
+    @ApiModelProperty("list of users who manipulated with this book")
     private List<User> users = new ArrayList<>();
 
+
+    @CollectionTable(name = "books_statuses",
+            joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    @ApiModelProperty("book status")
-    private BookStatus status;
+    @ElementCollection(targetClass = BookStatus.class)
+    @ApiModelProperty("book statuses")
+    private List<BookStatus> statuses = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
     @ApiModelProperty("list of transaction with this book")
     private List<BalanceTransaction> transactions = new ArrayList<>();
+
+    @Formula("(select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'PAID') + " +
+            "((select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'CART') * 0.7) +" +
+            "((select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'ARCHIEVED') * 0.4)")
+    private Double popularityIndex;
+
+/*    @Transient
+    private double popularityIndex;
+
+    @PostLoad
+    private void postLoad() {
+        this.popularityIndex =
+                statuses.stream().filter(status -> status.equals(BookStatus.PAID)).count() *
+                        (statuses.stream().filter(status -> status.equals(BookStatus.CART)).count() * 0.7) *
+                        (statuses.stream().filter(status -> status.equals(BookStatus.ARCHIEVED)).count() * 0.4);
+    }*/
 
 }

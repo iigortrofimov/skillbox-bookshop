@@ -65,9 +65,10 @@ p.error-browser
                     <div class="Slider-box Cards" data-load="recommended" data-loadoffset="0" data-loadlimit="6">
                         <div class="Slider-item" th:each="book : ${recommendedBooks}">
                             <div class="Slider-content">
-                                <div class="Card"><a class="Card-picture" href="/books/slug.html"><img
-                                        th:src="${book.image}"
-                                        alt="assets/img/content/main/card.jpg"></a>
+                                <div class="Card">
+                                    <a class="Card-picture" href="/books/slug.html">
+                                    <img th:src="${book.image}" alt="assets/img/content/main/card.jpg">
+                                    </a>
                                     <div class="Card-content">
                                         <strong class="Card-title"><a href="/books/slug.html"
                                                                       th:text="${book.title}">Title</a>
@@ -180,103 +181,35 @@ p.error-browser
             <h2 class="Middle-title">Книги по тегам
             </h2>
             <div class="Tags" id="tags">
-                <div class="Tag Tag_xs"><a href="/tags/index.html">современная литература</a>
+                <div class="Tag Tag_xs" th:each="bookWithXsTag : ${booksWithXsTag}">
+                    <a href="/tags/index.html" th:href="@{'/tags/' + ${bookWithXsTag.slug}}"
+                       th:text="${bookWithXsTag.slug}">
+                        XS tag
+                    </a>
                 </div>
-                <div class="Tag Tag_sm"><a href="/tags/index.html">классическая литература</a>
+                <div class="Tag Tag_sm" th:each="bookWithSmTag : ${booksWithSmTag}">
+                    <a href="/tags/index.html" th:href="@{'/tags/' + ${bookWithSmTag.slug}}"
+                       th:text="${bookWithSmTag.slug}">
+                        S tag
+                    </a>
                 </div>
-                <div class="Tag"><a href="/tags/index.html">зарубежная литература</a>
+                <div class="Tag" th:each="bookWithTag : ${booksWithTag}">
+                    <a href="/tags/index.html" th:href="@{'/tags/' + ${bookWithTag.slug}}"
+                       th:text="${bookWithTag.slug}">
+                        tag
+                    </a>
                 </div>
-                <div class="Tag Tag_md"><a href="/tags/index.html">фэнтези</a>
+                <div class="Tag Tag_md" th:each="bookWithMdTag : ${booksWithMdTag}">
+                    <a href="/tags/index.html" th:href="@{'/tags/' + ${bookWithMdTag.slug}}"
+                       th:text="${bookWithMdTag.slug}">
+                        M tag
+                    </a>
                 </div>
-                <div class="Tag Tag_lg"><a href="/tags/index.html">английская литература</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">русская литература</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">американская литература</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">фантастика</a>
-                </div>
-                <div class="Tag Tag_md"><a href="/tags/index.html">детская литература</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">детектив</a>
-                </div>
-                <div class="Tag Tag_sm"><a href="/tags/index.html">любовь</a>
-                </div>
-                <div class="Tag Tag_sm"><a href="/tags/index.html">мистика</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">юмор</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">приключения</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">сказка</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">французская литература</a>
-                </div>
-                <div class="Tag Tag_xs"><a href="/tags/index.html">англия</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">художественная литература</a>
-                </div>
-                <div class="Tag Tag_xs"><a href="/tags/index.html">психология</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">философия</a>
-                </div>
-                <div class="Tag Tag_lg"><a href="/tags/index.html">экранизировано</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">любимое</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">антиутопия</a>
-                </div>
-                <div class="Tag Tag_xs"><a href="/tags/index.html">books you must read before you die</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">роман</a>
-                </div>
-                <div class="Tag Tag_md"><a href="/tags/index.html">франция</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">дайте две</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">young adult</a>
-                </div>
-                <div class="Tag Tag_lg"><a href="/tags/index.html">война</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">история</a>
-                </div>
-                <div class="Tag Tag_sm"><a href="/tags/index.html">флэшмоб 2016</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">детство</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">жизнь</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">драма</a>
-                </div>
-                <div class="Tag Tag_md"><a href="/tags/index.html">россия</a>
-                </div>
-                <div class="Tag Tag_md"><a href="/tags/index.html">книжное путешествие</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">советская литература</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">триллер</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">америка</a>
-                </div>
-                <div class="Tag Tag_sm"><a href="/tags/index.html">немецкая литература</a>
-                </div>
-                <div class="Tag Tag_xs"><a href="/tags/index.html">вампиры</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">школьная программа</a>
-                </div>
-                <div class="Tag Tag_xs"><a href="/tags/index.html">рассказы</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">магия</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">дети</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">русская классика</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">флэшмоб 2015</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">биография</a>
-                </div>
-                <div class="Tag"><a href="/tags/index.html">english</a>
+                <div class="Tag Tag_lg" th:each="bookWithLgTag : ${booksWithLgTag}">
+                    <a href="/tags/index.html" th:href="@{'/tags/'+ ${bookWithLgTag.slug}}"
+                       th:text="${bookWithLgTag.slug}">
+                        L tag
+                    </a>
                 </div>
             </div>
         </main>
