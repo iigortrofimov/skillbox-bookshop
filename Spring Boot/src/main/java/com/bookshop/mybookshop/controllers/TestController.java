@@ -7,6 +7,7 @@ import com.bookshop.mybookshop.domain.Book;
 import com.bookshop.mybookshop.domain.BookTag;
 import com.bookshop.mybookshop.domain.Genre;
 import com.bookshop.mybookshop.dto.GenreDto;
+import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.GenreService;
 import com.bookshop.mybookshop.services.TagService;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.List;
 public class TestController {
 
     private BookRepository bookRepository;
+    private BookService bookService;
     private TagService tagService;
     private TagRepository tagRepository;
     private GenreRepository genreRepository;
@@ -68,4 +70,8 @@ public class TestController {
         return genreService.receiveAllGenresDtoSortedList();
     }
 
+    @GetMapping("/testgenrefulllist")
+    public Page<Book> testGenreFullList1(@RequestParam("genre") String genre) {
+        return bookService.receivePageOfBooksWithSpecificGenre(genre, 0, 6);
+    }
 }

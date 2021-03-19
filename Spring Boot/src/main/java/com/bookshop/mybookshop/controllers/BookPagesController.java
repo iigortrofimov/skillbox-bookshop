@@ -53,9 +53,19 @@ public class BookPagesController {
 
     @GetMapping("/genre/{genreName}")
     public BooksPageDto receiveBookPageWithSpecificGenre(@PathVariable(value = "genreName") String genreName,
-                                                       @RequestParam("offset") Integer offset,
-                                                       @RequestParam("limit") Integer limit) {
+                                                         @RequestParam("offset") Integer offset,
+                                                         @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.receivePageOfBooksWithSpecificGenre(genreName, offset, limit).getContent());
+    }
+
+    @GetMapping("/author/{authorFullName}")
+    public BooksPageDto receiveBookPageWithSpecificAuthor(@PathVariable(value = "authorFullName") String authorFullName,
+                                                          @RequestParam("offset") Integer offset,
+                                                          @RequestParam("limit") Integer limit) {
+        String[] fullName = authorFullName.split("_");
+        String lastName = fullName[0];
+        String firstName = fullName[1];
+        return new BooksPageDto(bookService.receivePageOfBooksWithSpecificAuthor(firstName, lastName, offset, limit).getContent());
     }
 
 }

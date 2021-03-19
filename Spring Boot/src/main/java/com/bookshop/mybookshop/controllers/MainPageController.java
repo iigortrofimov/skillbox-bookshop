@@ -1,10 +1,12 @@
 package com.bookshop.mybookshop.controllers;
 
+import com.bookshop.mybookshop.domain.Author;
 import com.bookshop.mybookshop.domain.Book;
 import com.bookshop.mybookshop.domain.BookTag;
 import com.bookshop.mybookshop.dto.BooksPageDto;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
+import com.bookshop.mybookshop.services.AuthorService;
 import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.GenreService;
 import com.bookshop.mybookshop.services.TagService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping
@@ -29,6 +32,7 @@ public class MainPageController {
     private final BookService bookService;
     private final TagService tagService;
     private final GenreService genreService;
+    private final AuthorService authorService;
 
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
@@ -85,6 +89,11 @@ public class MainPageController {
         return genreService.receiveAllGenresDtoSortedList();
     }
 
+    @ModelAttribute("authorsMap")
+    public Map<String, List<Author>> authorsMap() {
+        return authorService.receiveAuthorsMap();
+    }
+
     @GetMapping("/")
     public String mainPage() {
         return "index";
@@ -100,14 +109,19 @@ public class MainPageController {
         return "/genres/index";
     }
 
-/*    @GetMapping("/genres/slug")
-    public String genresSlugPage() {
-        return "/genres/slug";
-    }*/
-
     @GetMapping("/popular")
     public String popularBooksPage() {
         return "/books/popular";
+    }
+
+    @GetMapping("/authors")
+    public String authorsPage() {
+        return "/authors/index";
+    }
+
+    @GetMapping("/authors/slug.html")
+    public String authorsSlugPage() {
+        return "/authors/slug";
     }
 
     @GetMapping(value = {"/search", "/search/{searchWord}"})
@@ -143,6 +157,24 @@ public class MainPageController {
         model.addAttribute("booksWithSpecificGenre", bookListWithSpecificGenre);
         model.addAttribute("genreName", genreName);
         return "genres/slug";
+    }
+
+    @GetMapping("/authors/{lastName_firstName}")
+    public String authorPage(@PathVariable("lastName_firstName") String authorFullName, Model model) {
+        authorService.setModelWithAuthorInfoByAuthorFullName(authorFullName, model);
+        return "authors/slug";
+    }
+
+    @GetMapping("/books/{authorFullName}")
+    public String authorBooksPage(@PathVariable("authorFullName") String authorFullName, Model model) {
+        String[] fullName = authorFullName.split("_");
+        String lastName = fullName[0];
+        String firstName = fullName[1];
+        List<Book> bookListWithSpecificAuthor = bookService.receivePageOfBooksWithSpecificAuthor(firstName, lastName, 0, 20).getContent();
+        model.addAttribute("bookListWithSpecificAuthor", bookListWithSpecificAuthor);
+        model.addAttribute("authorFullName", lastName + " " + firstName);
+        model.addAttribute("authorFullNameForUrl", authorFullName);
+        return "books/author";
     }
 
 }

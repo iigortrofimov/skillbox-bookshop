@@ -4,6 +4,7 @@ import com.bookshop.mybookshop.dao.AuthorRepository;
 import com.bookshop.mybookshop.domain.Author;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,24 @@ public class AuthorService {
 
     Author receiveAuthorById(Integer authorId) {
         return authorRepository.getOne(authorId);
+    }
+
+    public void setModelWithAuthorInfoByAuthorFullName(String authorFullName, Model model) {
+        String[] fullName = authorFullName.split("_");
+        String lastName = fullName[0];
+        String firstName = fullName[1];
+        Author author = authorRepository.findByLastNameAndFirstName(lastName, firstName);
+        model.addAttribute("specificAuthor", author);
+        model.addAttribute("authorFullName", author.getLastName() + " " + author.getFirstName());
+        //description
+        String fullDescription = author.getDescription();
+        if (fullDescription.length() < 1000) {
+            model.addAttribute("firstPartDescription", fullDescription);
+            model.addAttribute("secondPartDescription", null);
+        } else {
+            model.addAttribute("firstPartDescription", fullDescription.substring(0, 999));
+            model.addAttribute("secondPartDescription", fullDescription.substring(999, fullDescription.length() - 1));
+        }
     }
 
 }

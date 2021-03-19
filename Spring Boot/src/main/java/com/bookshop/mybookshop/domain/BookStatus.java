@@ -1,6 +1,6 @@
 package com.bookshop.mybookshop.domain;
 
-public enum  BookStatus {
+public enum BookStatus {
 
     KEPT, CART, PAID, ARCHIEVED
 

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +39,12 @@ public class Author {
     )
     private List<Book> books = new ArrayList<>();
 
-    private String biography;
-
-    private Blob photo;
+    private String photo;
 
     @Column(nullable = false)
     private String slug;
 
+    @Column(length = 4096)
     private String description;
 
 }

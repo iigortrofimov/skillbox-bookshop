@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity (name = "balance_transactions")
+@Entity(name = "balance_transactions")
 @Data
 @ToString(exclude = "id")
 public class BalanceTransaction {

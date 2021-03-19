@@ -1,20 +1,26 @@
 package com.bookshop.mybookshop.services;
 
 import com.bookshop.mybookshop.dao.BookRepository;
+import com.bookshop.mybookshop.dao.GenreRepository;
 import com.bookshop.mybookshop.domain.Book;
+import com.bookshop.mybookshop.domain.Genre;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final GenreRepository genreRepository;
 
     public List<Book> receiveAllBooks() {
         return bookRepository.findAll();
@@ -68,8 +74,33 @@ public class BookService {
         return bookRepository.findByBookTagsSlug(tagName, PageRequest.of(offset, limit));
     }
 
-    public Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit) {
+/*    public Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit) {
         return bookRepository.findByGenresSlug(genreName, PageRequest.of(offset, limit));
+    }*/
+
+    public Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit) {
+        List<Integer> genreIdsList = new ArrayList<>();
+        Integer firstLevelGenreId = genreRepository.findByNameIs(genreName).getId();
+        genreIdsList.add(firstLevelGenreId);
+        List<Integer> secondLevelGenreIdList = genreRepository.findByParentIdIs(firstLevelGenreId)
+                .stream()
+                .map(Genre::getId)
+                .collect(Collectors.toList());
+        if (!secondLevelGenreIdList.isEmpty()) {
+            genreIdsList.addAll(secondLevelGenreIdList);
+            List<Integer> thirdLevelGenreIdList = secondLevelGenreIdList
+                    .stream()
+                    .map(genreRepository::findByParentIdIs)
+                    .flatMap(Collection::stream)
+                    .map(Genre::getId)
+                    .collect(Collectors.toList());
+            genreIdsList.addAll(thirdLevelGenreIdList);
+        }
+        return bookRepository.findByGenresIdIn(genreIdsList, PageRequest.of(offset, limit));
+    }
+
+    public Page<Book> receivePageOfBooksWithSpecificAuthor(String firstName, String lastName, Integer offset, Integer limit) {
+        return bookRepository.findByAuthorsFirstNameAndAuthorsLastName(firstName, lastName, PageRequest.of(offset, limit));
     }
 
 }
