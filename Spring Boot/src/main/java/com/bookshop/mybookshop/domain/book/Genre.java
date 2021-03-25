@@ -1,34 +1,32 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.book;
 
 import lombok.Data;
-import lombok.ToString;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name = "book_files")
+@Entity(name = "genres")
 @Data
-@ToString(exclude = "id")
-public class BookFile {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String hash;
+    @Column(name = "parent_id")
+    private Integer parentId;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private BookFileType type;
+    private String name;
 
     @Column(nullable = false)
-    private String path;
+    private String slug;
 
+    @Formula("(select count(bg.book_id) from books_genres bg WHERE bg.genre_id = id)")
+    private Integer count;
 
 }

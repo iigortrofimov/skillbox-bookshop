@@ -1,6 +1,6 @@
 package com.bookshop.mybookshop.dto;
 
-import com.bookshop.mybookshop.domain.Book;
+import com.bookshop.mybookshop.domain.book.Book;
 import lombok.Data;
 
 import java.util.List;

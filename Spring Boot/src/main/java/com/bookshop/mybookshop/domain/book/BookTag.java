@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

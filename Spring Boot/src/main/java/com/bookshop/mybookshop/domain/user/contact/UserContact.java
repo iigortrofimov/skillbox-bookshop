@@ -1,5 +1,6 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.user.contact;
 
+import com.bookshop.mybookshop.domain.user.User;
 import lombok.Data;
 import lombok.ToString;
 

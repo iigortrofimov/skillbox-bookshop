@@ -1,5 +1,6 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.author;
 
+import com.bookshop.mybookshop.domain.book.Book;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;

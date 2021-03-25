@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.user;
 
 import lombok.Data;
 import lombok.ToString;
@@ -12,27 +12,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity(name = "review_likes")
+@Entity(name = "messages")
 @Data
 @ToString(exclude = "id")
-public class ReviewLike {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "review_id", nullable = false)
-    private Review review;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(name = "is_bestseller")
-    private Boolean value;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private String email;
+
+    private String name;
+
+    @Column(nullable = false)
+    private String subject;
+
+    @Column(nullable = false)
+    private String text;
 
 }

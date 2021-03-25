@@ -1,8 +1,9 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.review;
 
+import com.bookshop.mybookshop.domain.review.Review;
+import com.bookshop.mybookshop.domain.user.User;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,31 +14,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity(name = "balance_transactions")
+@Entity(name = "review_likes")
 @Data
 @ToString(exclude = "id")
-public class BalanceTransaction {
+public class ReviewLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "review_id", nullable = false)
+    private Review review;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(nullable = false)
-    @ColumnDefault("0")
-    private Integer value;
-
-    @Column(nullable = false)
-    private String description;
+    @Column(name = "is_bestseller")
+    private Boolean value;
 
 }

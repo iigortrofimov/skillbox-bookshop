@@ -1,7 +1,9 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.user;
 
+import com.bookshop.mybookshop.domain.book.Book;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,16 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-
-@ToString(exclude = "id")
-@Entity(name = "book_reviews")
+@Entity(name = "balance_transactions")
 @Data
-public class Review {
+@ToString(exclude = "id")
+public class BalanceTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +35,10 @@ public class Review {
     private LocalDateTime dateTime;
 
     @Column(nullable = false)
-    private String text;
+    @ColumnDefault("0")
+    private Integer value;
 
-    @OneToMany(mappedBy = "review")
-    private List<ReviewLike> likes = new ArrayList<>();
+    @Column(nullable = false)
+    private String description;
 
 }

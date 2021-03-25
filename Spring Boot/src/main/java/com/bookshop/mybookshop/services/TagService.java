@@ -1,57 +1,23 @@
 package com.bookshop.mybookshop.services;
 
-import com.bookshop.mybookshop.dao.TagRepository;
-import com.bookshop.mybookshop.domain.BookTag;
-import lombok.AllArgsConstructor;
+import com.bookshop.mybookshop.domain.book.BookTag;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
-public class TagService {
+public interface TagService {
 
-    private final TagRepository tagRepository;
+    List<BookTag> receiveAllBookTags();
 
-    public List<BookTag> receiveAllBookTags() {
-        return tagRepository.findAll();
-    }
+    List<BookTag> receiveBookTagsWithXsTag();
 
-    public List<BookTag> receiveBookTagsWithXsTag() {
-        return createBookTagListFromCriterias(0, 2);
-    }
+    List<BookTag> receiveBookTagsWithSmTag();
 
-    public List<BookTag> receiveBookTagsWithSmTag() {
-        return createBookTagListFromCriterias(3, 5);
-    }
+    List<BookTag> receiveBookTagsWithTag();
 
-    public List<BookTag> receiveBookTagsWithTag() {
-        return createBookTagListFromCriterias(6, 10);
-    }
+    List<BookTag> receiveBookTagsWithMdTag();
 
-    public List<BookTag> receiveBookTagsWithMdTag() {
-        return createBookTagListFromCriterias(11, 15);
-    }
-
-    public List<BookTag> receiveBookTagsWithLgTag() {
-        return createBookTagListFromCriterias(16, 9999);
-    }
-
-    private List<BookTag> createBookTagListFromCriterias(Integer minCriteria, Integer maxCriteria) {
-        return bookTagMap()
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey() >= minCriteria && entry.getKey() <= maxCriteria)
-                .map(Map.Entry::getValue)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    private Map<Integer, List<BookTag>> bookTagMap() {
-        return tagRepository.findAll().stream().collect(Collectors.groupingBy(BookTag::getCount));
-    }
+    List<BookTag> receiveBookTagsWithLgTag();
 
 }

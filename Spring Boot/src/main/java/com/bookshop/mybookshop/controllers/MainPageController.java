@@ -1,8 +1,8 @@
 package com.bookshop.mybookshop.controllers;
 
-import com.bookshop.mybookshop.domain.Author;
-import com.bookshop.mybookshop.domain.Book;
-import com.bookshop.mybookshop.domain.BookTag;
+import com.bookshop.mybookshop.domain.author.Author;
+import com.bookshop.mybookshop.domain.book.Book;
+import com.bookshop.mybookshop.domain.book.BookTag;
 import com.bookshop.mybookshop.dto.BooksPageDto;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;

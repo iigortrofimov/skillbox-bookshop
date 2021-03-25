@@ -1,5 +1,9 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.book;
 
+import com.bookshop.mybookshop.domain.author.Author;
+import com.bookshop.mybookshop.domain.review.Review;
+import com.bookshop.mybookshop.domain.user.BalanceTransaction;
+import com.bookshop.mybookshop.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,5 +1,9 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.user;
 
+import com.bookshop.mybookshop.domain.book.Book;
+import com.bookshop.mybookshop.domain.review.Review;
+import com.bookshop.mybookshop.domain.review.ReviewLike;
+import com.bookshop.mybookshop.domain.user.contact.UserContact;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;

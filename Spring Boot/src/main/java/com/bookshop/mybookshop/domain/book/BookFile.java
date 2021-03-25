@@ -1,41 +1,34 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.book;
 
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
 
-@Entity(name = "messages")
+@Entity(name = "book_files")
 @Data
 @ToString(exclude = "id")
-public class Message {
+public class BookFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private String email;
-
-    private String name;
+    private String hash;
 
     @Column(nullable = false)
-    private String subject;
+    @Enumerated(EnumType.STRING)
+    private BookFileType type;
 
     @Column(nullable = false)
-    private String text;
+    private String path;
+
 
 }

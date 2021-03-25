@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.book;
 
 public enum BookStatus {
 

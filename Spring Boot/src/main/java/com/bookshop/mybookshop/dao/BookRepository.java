@@ -1,6 +1,6 @@
 package com.bookshop.mybookshop.dao;
 
-import com.bookshop.mybookshop.domain.Book;
+import com.bookshop.mybookshop.domain.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.domain;
+package com.bookshop.mybookshop.domain.info;
 
 import lombok.Data;
 import lombok.ToString;

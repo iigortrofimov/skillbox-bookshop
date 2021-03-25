@@ -1,6 +1,6 @@
 package com.bookshop.mybookshop.controllers;
 
-import com.bookshop.mybookshop.domain.Book;
+import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
