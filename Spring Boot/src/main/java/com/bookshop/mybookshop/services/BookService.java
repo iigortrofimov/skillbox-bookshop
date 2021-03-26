@@ -37,5 +37,4 @@ public interface BookService {
     Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit);
 
     Page<Book> receivePageOfBooksWithSpecificAuthor(String firstName, String lastName, Integer offset, Integer limit);
-
 }

@@ -54,5 +54,4 @@ public class TagServiceImpl implements TagService {
     private Map<Integer, List<BookTag>> bookTagMap() {
         return tagRepository.findAll().stream().collect(Collectors.groupingBy(BookTag::getCount));
     }
-
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+//TODO убрать закомиченый код
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
@@ -51,5 +51,4 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findByGenresIdIn(List<Integer> ids, Pageable nextPage);
 
     Page<Book> findByAuthorsFirstNameAndAuthorsLastName(String firstName, String lastName, Pageable nextPage);
-
 }

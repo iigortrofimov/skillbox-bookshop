@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.controllers;
+package com.bookshop.mybookshop.controllers.rest;
 
 import com.bookshop.mybookshop.dto.BooksPageDto;
 import com.bookshop.mybookshop.dto.DateTimeDto;
@@ -67,5 +67,4 @@ public class BookPagesController {
         String firstName = fullName[1];
         return new BooksPageDto(bookService.receivePageOfBooksWithSpecificAuthor(firstName, lastName, offset, limit).getContent());
     }
-
 }

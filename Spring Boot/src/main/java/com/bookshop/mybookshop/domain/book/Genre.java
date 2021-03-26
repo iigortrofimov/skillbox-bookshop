@@ -28,5 +28,4 @@ public class Genre {
 
     @Formula("(select count(bg.book_id) from books_genres bg WHERE bg.genre_id = id)")
     private Integer count;
-
 }

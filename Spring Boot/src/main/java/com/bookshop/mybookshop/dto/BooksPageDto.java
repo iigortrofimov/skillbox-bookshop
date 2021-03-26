@@ -16,5 +16,4 @@ public class BooksPageDto {
         this.count = recommendedBooks.size();
         books = recommendedBooks;
     }
-
 }

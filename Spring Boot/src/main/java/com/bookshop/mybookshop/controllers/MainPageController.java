@@ -176,5 +176,4 @@ public class MainPageController {
         model.addAttribute("authorFullNameForUrl", authorFullName);
         return "books/author";
     }
-
 }

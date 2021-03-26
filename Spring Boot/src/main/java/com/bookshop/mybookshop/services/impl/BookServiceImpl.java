@@ -103,5 +103,4 @@ public class BookServiceImpl implements BookService {
     public Page<Book> receivePageOfBooksWithSpecificAuthor(String firstName, String lastName, Integer offset, Integer limit) {
         return bookRepository.findByAuthorsFirstNameAndAuthorsLastName(firstName, lastName, PageRequest.of(offset, limit));
     }
-
 }

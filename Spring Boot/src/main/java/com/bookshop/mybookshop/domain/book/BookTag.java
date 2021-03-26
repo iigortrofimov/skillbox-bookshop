@@ -30,5 +30,4 @@ public class BookTag {
 
     @Formula("(select count(bt.book_id) from books_tags bt WHERE bt.tag_id = id)")
     private Integer count;
-
 }

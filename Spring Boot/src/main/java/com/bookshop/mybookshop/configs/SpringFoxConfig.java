@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.ArrayList;
-
+//TODO убрать закомиченый код
 @Configuration
 public class SpringFoxConfig {
 
@@ -39,5 +39,4 @@ public class SpringFoxConfig {
                 "http://licences.com",
                 new ArrayList<>());
     }
-
 }

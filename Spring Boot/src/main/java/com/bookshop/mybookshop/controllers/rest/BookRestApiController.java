@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.controllers;
+package com.bookshop.mybookshop.controllers.rest;
 
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.services.BookService;
@@ -56,5 +56,4 @@ public class BookRestApiController {
     public ResponseEntity<List<Book>> bestsellers() {
         return ResponseEntity.ok(bookService.receiveBestSellers());
     }
-
 }

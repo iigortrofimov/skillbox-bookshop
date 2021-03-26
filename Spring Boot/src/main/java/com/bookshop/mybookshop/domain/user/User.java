@@ -62,5 +62,4 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Message> messages = new ArrayList<>();
-
 }

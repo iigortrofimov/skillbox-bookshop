@@ -47,5 +47,4 @@ public class Author {
 
     @Column(length = 4096)
     private String description;
-
 }

@@ -29,6 +29,4 @@ public class BookFile {
 
     @Column(nullable = false)
     private String path;
-
-
 }

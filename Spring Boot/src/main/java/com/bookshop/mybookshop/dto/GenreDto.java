@@ -12,5 +12,4 @@ public class GenreDto {
     private String slug;
     private Integer count;
     private List<GenreDto> SubGenres = new ArrayList<>();
-
 }

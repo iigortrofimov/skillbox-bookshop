@@ -1,6 +1,5 @@
 package com.bookshop.mybookshop.domain.review;
 
-import com.bookshop.mybookshop.domain.review.Review;
 import com.bookshop.mybookshop.domain.user.User;
 import lombok.Data;
 import lombok.ToString;
@@ -36,5 +35,4 @@ public class ReviewLike {
 
     @Column(name = "is_bestseller")
     private Boolean value;
-
 }

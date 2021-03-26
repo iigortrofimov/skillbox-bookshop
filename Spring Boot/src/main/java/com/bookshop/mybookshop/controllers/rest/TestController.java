@@ -1,4 +1,4 @@
-package com.bookshop.mybookshop.controllers;
+package com.bookshop.mybookshop.controllers.rest;
 
 import com.bookshop.mybookshop.dao.BookRepository;
 import com.bookshop.mybookshop.dao.GenreRepository;
@@ -23,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TestController {
 
+    //TODO поля следует final
     private BookRepository bookRepository;
     private BookService bookService;
     private TagService tagService;

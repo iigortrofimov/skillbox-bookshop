@@ -19,5 +19,4 @@ public interface TagService {
     List<BookTag> receiveBookTagsWithMdTag();
 
     List<BookTag> receiveBookTagsWithLgTag();
-
 }

@@ -46,5 +46,4 @@ public class AuthorServiceImpl implements AuthorService {
             model.addAttribute("secondPartDescription", fullDescription.substring(999, fullDescription.length() - 1));
         }
     }
-
 }

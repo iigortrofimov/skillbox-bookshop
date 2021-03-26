@@ -31,5 +31,4 @@ public class Document {
 
     @Column(nullable = false)
     private String text;
-
 }

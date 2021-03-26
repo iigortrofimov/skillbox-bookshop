@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
+//TODO убрать закомиченый код
 @Service
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {

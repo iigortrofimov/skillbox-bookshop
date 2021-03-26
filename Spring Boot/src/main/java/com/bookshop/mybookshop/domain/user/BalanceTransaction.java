@@ -40,5 +40,4 @@ public class BalanceTransaction {
 
     @Column(nullable = false)
     private String description;
-
 }
