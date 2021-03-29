@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-//TODO убрать закомиченый код
+
 @Service
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {
@@ -20,7 +20,6 @@ public class GenreServiceImpl implements GenreService {
     public List<GenreDto> receiveAllGenresDtoSortedList() {
         //итоговый список на отдачу
         List<GenreDto> finalGenreDtos = new ArrayList<>(); //size = 0
-
         //список первого уровня
         List<Genre> firstLevelGenre = genreRepository.findByParentIdIsNull();
         if (firstLevelGenre.isEmpty()) {
@@ -52,28 +51,4 @@ public class GenreServiceImpl implements GenreService {
         genreDto.setCount(count + genre.getCount());
         return genreDto;
     }
-
 }
-
-
-/*    public List<Genre> getAllGenres(String genreName) {
-        List<Genre> allGenres = genreRepository.findBySlugIs(genreName);
-        List<Genre> genresByName = genreRepository.findBySlugIs(genreName);
-        allGenres.addAll(genresByName);
-        genresByName.stream()
-                .filter(genre -> genre.getParentId() != null)
-                .map(Genre::getParentId)
-                .forEach(parentId -> {
-                    List<Genre> byParentIdIs = genreRepository.findByParentIdIs(parentId);
-                    allGenres.addAll(byParentIdIs);
-                    byParentIdIs.stream()
-                            .filter(genre -> genre.getParentId() != null)
-                            .map(Genre::getParentId)
-                            .forEach(parId -> {
-                                List<Genre> byParentId = genreRepository.findByParentIdIs(parentId);
-                                allGenres.addAll(byParentId);
-                            });
-                });
-        return allGenres;
-    }*/
-

@@ -23,13 +23,12 @@ import java.util.List;
 @AllArgsConstructor
 public class TestController {
 
-    //TODO поля следует final
-    private BookRepository bookRepository;
-    private BookService bookService;
-    private TagService tagService;
-    private TagRepository tagRepository;
-    private GenreRepository genreRepository;
-    private GenreService genreService;
+    private final BookRepository bookRepository;
+    private final BookService bookService;
+    private final TagService tagService;
+    private final TagRepository tagRepository;
+    private final GenreRepository genreRepository;
+    private final GenreService genreService;
 
     @GetMapping("/test")
     public List<Book> test() {

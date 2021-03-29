@@ -28,7 +28,7 @@ import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-//TODO закомиченый код
+
 @Data
 @ToString(exclude = "id")
 @Entity(name = "books")
@@ -120,14 +120,4 @@ public class Book {
             "((select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'ARCHIEVED') * 0.4)")
     private Double popularityIndex;
 
-/*    @Transient
-    private double popularityIndex;
-
-    @PostLoad
-    private void postLoad() {
-        this.popularityIndex =
-                statuses.stream().filter(status -> status.equals(BookStatus.PAID)).count() *
-                        (statuses.stream().filter(status -> status.equals(BookStatus.CART)).count() * 0.7) *
-                        (statuses.stream().filter(status -> status.equals(BookStatus.ARCHIEVED)).count() * 0.4);
-    }*/
 }

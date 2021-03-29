@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.ArrayList;
-//TODO убрать закомиченый код
+
 @Configuration
 public class SpringFoxConfig {
 
@@ -20,9 +20,7 @@ public class SpringFoxConfig {
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                //  .apis(RequestHandlerSelectors.basePackage("com.bookshop.mybookshop.controllers"))
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-                //.paths(PathSelectors.any())
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
                 .apiInfo(apiInfo());

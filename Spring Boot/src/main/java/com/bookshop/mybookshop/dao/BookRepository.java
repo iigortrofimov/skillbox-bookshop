@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-//TODO убрать закомиченый код
+
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
@@ -20,9 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findBooksByPriceBetween(Integer min, Integer max);
 
     List<Book> findBooksByPriceIs(Integer price);
-
-/*    @Query("from Book where isBestseller = TRUE")
-    List<Book> getBestSellers();*/
 
     List<Book> findByIsBestsellerTrue();
 
@@ -41,7 +38,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findByOrderByPopularityIndexDesc(Pageable pageable);
 
-    // Page<Book> findByBookTagsContains(String tagName, Pageable nextPage);
     Page<Book> findByBookTagsSlug(String tagName, Pageable nextPage);
 
     Page<Book> findByGenresSlug(String genreName, Pageable nextPage);

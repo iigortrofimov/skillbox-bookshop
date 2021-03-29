@@ -119,11 +119,6 @@ public class MainPageController {
         return "/authors/index";
     }
 
-    @GetMapping("/authors/slug.html")
-    public String authorsSlugPage() {
-        return "/authors/slug";
-    }
-
     @GetMapping(value = {"/search", "/search/{searchWord}"})
     public String searchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
                                Model model) {
