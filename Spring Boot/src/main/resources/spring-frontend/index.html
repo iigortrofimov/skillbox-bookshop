@@ -81,7 +81,7 @@ p.error-browser
                                                                      th:text="${'₽' + book.price}">₽ Old price</span>
                                             <span
                                                     class="Card-price"
-                                                    th:text="${'₽' + #numbers.formatDecimal(book.price - (book.getDiscount * 0.01 * book.getPrice), 3, 2)}">₽ Price with discount</span>
+                                                    th:text="${'₽' + book.discountedPrice()}">₽ Price with discount</span>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@ p.error-browser
                                         <div class="Card-cost"><span class="Card-priceOld"
                                                                      th:text="${'₽' + book.price}">>₽500.00</span><span
                                                 class="Card-price"
-                                                th:text="${'₽' + #numbers.formatDecimal(book.price - (book.getDiscount * 0.01 * book.getPrice), 3, 2)}">₽390.00</span>
+                                                th:text="${'₽' + book.discountedPrice()}">₽390.00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@ p.error-browser
                                         <div class="Card-cost"><span class="Card-priceOld"
                                                                      th:text="${'₽' + book.price}">₽500.00</span><span
                                                 class="Card-price"
-                                                th:text="${'₽' + #numbers.formatDecimal(book.price - (book.getDiscount * 0.01 * book.getPrice), 3, 2)}">₽390.00</span>
+                                                th:text="${'₽' + book.discountedPrice()}">₽390.00</span>
                                         </div>
                                     </div>
                                 </div>

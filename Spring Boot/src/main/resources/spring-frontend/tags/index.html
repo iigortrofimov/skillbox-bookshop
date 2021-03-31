@@ -80,7 +80,7 @@ p.error-browser
                                                          th:text="${'₽' + book.price}">₽ Old price</span>
                                 <span
                                         class="Card-price"
-                                        th:text="${'₽' + #numbers.formatDecimal(book.price - (book.getDiscount * 0.01 * book.getPrice), 3, 2)}">
+                                        th:text="${'₽' + book.discountedPrice()}">
                                     ₽ Price with discount
                                 </span>
                             </div>

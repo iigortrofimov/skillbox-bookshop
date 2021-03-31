@@ -4,7 +4,9 @@ import com.bookshop.mybookshop.domain.author.Author;
 import com.bookshop.mybookshop.domain.review.Review;
 import com.bookshop.mybookshop.domain.user.BalanceTransaction;
 import com.bookshop.mybookshop.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -59,10 +61,12 @@ public class Book {
     @Column(nullable = false)
     @ColumnDefault("0")
     @ApiModelProperty("book discount in %")
+    @JsonProperty("discount")
     private Integer discount;
 
     @Column(nullable = false)
     @ApiModelProperty("book price")
+    @JsonProperty("price")
     private Integer price;
 
     @ManyToMany
@@ -120,4 +124,23 @@ public class Book {
             "((select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'ARCHIEVED') * 0.4)")
     private Double popularityIndex;
 
+    @JsonProperty("discountPrice")
+    public Integer discountedPrice() {
+        return Math.toIntExact(Math.round(price - price * (discount * 0.01)));
+    }
+
+    /**
+     * Get the first author from author list, concat and return last name and first name
+     * or return {@code null};
+     *
+     * @return author full name or {@code null};
+     */
+    @JsonGetter("authors")
+    public String authorsFullName() {
+        if (authors.size() > 0) {
+            Author author = authors.get(0);
+            return author.getLastName() + ' ' + author.getFirstName();
+        }
+        return "undefined";
+    }
 }
