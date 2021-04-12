@@ -124,6 +124,12 @@ public class Book {
             "((select count(bs.book_id) from books_statuses bs WHERE bs.book_id = id AND bs.status = 'ARCHIEVED') * 0.4)")
     private Double popularityIndex;
 
+    /**
+     * List of book files which can be in different extensions;
+     */
+    @OneToMany(mappedBy = "book")
+    private List<BookFile> bookFiles = new ArrayList<>();
+
     @JsonProperty("discountPrice")
     public Integer discountedPrice() {
         return Math.toIntExact(Math.round(price - price * (discount * 0.01)));

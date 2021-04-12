@@ -25,9 +25,10 @@
                         <div class="Header-search">
                             <div class="search">
                                 <form class="form form_search" action="#" method="post" data-searchlimit="20"
-                                th:object="${searchWordDto}">
+                                      th:object="${searchWordDto}">
                                     <input class="search-input" id="query" name="query" type="text"
-                                           placeholder="Search over 30 million book titles" th:field="*{content}" value=""/>
+                                           placeholder="Search over 30 million book titles" th:field="*{content}"
+                                           value=""/>
                                     <button class="search-button" type="submit" name="search" id="search"
                                             th:text="#{topbar.search}">Поиск
                                     </button>
@@ -35,6 +36,8 @@
                             </div>
                         </div>
                     </div>
+                    <span th:if="${searchError}" th:text="${searchError.getLocalizedMessage()}"
+                          style="color: red"></span>
                 </div>
                 <div class="row-block Header-cart">
                     <div class="CartBlock"><a class="CartBlock-block" href="/postponed.html">
@@ -47,7 +50,9 @@
                                 </g>
                             </g>
                         </svg>
-                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block" href="/cart.html">
+                        <span class="CartBlock-amount">0</span></a><a class="CartBlock-block"
+                                                                      href="/cart.html"
+                                                                      th:href="@{/book/cart}">
                         <svg class="CartBlock-img" xmlns="http://www.w3.org/2000/svg" width="30" height="23"
                              viewBox="0 0 30 23">
                             <g>

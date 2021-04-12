@@ -62,18 +62,16 @@ p.error-browser
                 <div class="Cards Cards_refresh">
                     <div class="Card" th:each="book : ${booksWithSpecificTag}">
                         <div class="Card-picture">
-                            <a href="#">
+                            <a href="#" th:href="@{'/book/' + ${book.getSlug()}}">
                                 <img th:src="${book.image}" alt="card.jpg"/>
                             </a>
-                            <!--<div class="Card-sale">30% скидка
-                            </div>-->
                         </div>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="/books/slug.html"
+                            <strong class="Card-title"><a href="/books/slug.html" th:href="@{'/book/' + ${book.getSlug()}}"
                                                           th:text="${book.title}">Title</a>
                             </strong>
                             <div class="Card-description"
-                                 th:text="${book.authors.get(0).getFirstName() + ' ' +book.authors.get(0).getLastName()}">
+                                 th:text="${book.authorsFullName()}">
                                 Author
                             </div>
                             <div class="Card-cost"><span class="Card-priceOld"

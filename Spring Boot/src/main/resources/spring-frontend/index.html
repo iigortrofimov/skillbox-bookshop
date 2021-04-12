@@ -66,15 +66,17 @@ p.error-browser
                         <div class="Slider-item" th:each="book : ${recommendedBooks}">
                             <div class="Slider-content">
                                 <div class="Card">
-                                    <a class="Card-picture" href="/books/slug.html">
-                                    <img th:src="${book.image}" alt="assets/img/content/main/card.jpg">
+                                    <a class="Card-picture" href="/books/slug.html"
+                                       th:href="@{'/book/' + ${book.getSlug()}}">
+                                        <img th:src="${book.image}" alt="assets/img/content/main/card.jpg">
                                     </a>
                                     <div class="Card-content">
                                         <strong class="Card-title"><a href="/books/slug.html"
+                                                                      th:href="@{'/book/' + ${book.getSlug()}}"
                                                                       th:text="${book.title}">Title</a>
                                         </strong>
                                         <div class="Card-description"
-                                             th:text="${book.authors.get(0).getFirstName() + ' ' +book.authors.get(0).getLastName()}">
+                                             th:text="${book.authorsFullName()}">
                                             Author
                                         </div>
                                         <div class="Card-cost"><span class="Card-priceOld"
@@ -105,22 +107,25 @@ p.error-browser
                     <div class="Slider-box Cards" data-load="recent" data-loadoffset="0" data-loadlimit="6">
                         <div class="Slider-item" th:each="book : ${recentBooks}">
                             <div class="Slider-content">
-                                <div class="Card"><a class="Card-picture" href="/books/slug.html"><img
-                                        th:src="${book.image}" alt="card.jpg"/>
-                                    <!--                                    <div class="Card-sale">30% скидка
-                                                                        </div>-->
-                                </a>
+                                <div class="Card">
+                                    <a class="Card-picture" href="/books/slug.html"
+                                       th:href="@{'/book/' + ${book.getSlug()}}">
+                                        <img th:src="${book.image}" alt="card.jpg"/>
+                                    </a>
                                     <div class="Card-content">
-                                        <strong class="Card-title" th:text="${book.title}"><a href="/books/slug.html">Техника</a>
+                                        <strong class="Card-title"><a href="/books/slug.html"
+                                                                      th:href="@{'/book/' + ${book.getSlug()}}"
+                                                                      th:text="${book.title}">Title</a>
                                         </strong>
                                         <div class="Card-description"
-                                             th:text="${book.authors.get(0).getFirstName() + ' ' +book.authors.get(0).getLastName()}">
-                                            Кондратенко Александр Петрович
+                                             th:text="${book.authorsFullName()}">
+                                            Author
                                         </div>
                                         <div class="Card-cost"><span class="Card-priceOld"
-                                                                     th:text="${'₽' + book.price}">>₽500.00</span><span
-                                                class="Card-price"
-                                                th:text="${'₽' + book.discountedPrice()}">₽390.00</span>
+                                                                     th:text="${'₽' + book.price}">₽ Old price</span>
+                                            <span
+                                                    class="Card-price"
+                                                    th:text="${'₽' + book.discountedPrice()}">₽ Price with discount</span>
                                         </div>
                                     </div>
                                 </div>
@@ -144,24 +149,30 @@ p.error-browser
                     <div class="Slider-box Cards" data-load="popular" data-loadoffset="0" data-loadlimit="6">
                         <div class="Slider-item" th:each="book : ${popularBooks}">
                             <div class="Slider-content">
-                                <div class="Card"><a class="Card-picture" href="/books/slug.html"><img
-                                        th:src="${book.image}" alt="card.jpg"/>
-                                    <!--                                    <div class="Card-sale">30% скидка
-                                                                        </div>-->
-                                    <div class="Card-ribbon"><span class="Card-ribbonText">Бестселлер</span>
-                                    </div>
-                                </a>
+                                <div class="Card">
+                                    <a class="Card-picture" href="/books/slug.html"
+                                       th:href="@{'/book/' + ${book.getSlug()}}">
+                                        <img th:src="${book.image}" alt="card.jpg"/>
+                                        <div class="Card-ribbon">
+                                            <span class="Card-ribbonText">Бестселлер</span>
+                                        </div>
+                                    </a>
                                     <div class="Card-content">
-                                        <strong class="Card-title" th:text="${book.title}"><a href="/books/slug.html">Техника</a>
+                                        <strong class="Card-title">
+                                            <a href="/books/slug.html" th:href="@{'/book/' + ${book.getSlug()}}"
+                                               th:text="${book.title}">Title
+                                            </a>
                                         </strong>
                                         <div class="Card-description"
-                                             th:text="${book.authors.get(0).getFirstName() + ' ' +book.authors.get(0).getLastName()}">
-                                            Кондратенко Александр Петрович
+                                             th:text="${book.authorsFullName()}">
+                                            Author
                                         </div>
                                         <div class="Card-cost"><span class="Card-priceOld"
-                                                                     th:text="${'₽' + book.price}">₽500.00</span><span
-                                                class="Card-price"
-                                                th:text="${'₽' + book.discountedPrice()}">₽390.00</span>
+                                                                     th:text="${'₽' + book.price}">₽ Old price</span>
+                                            <span
+                                                    class="Card-price"
+                                                    th:text="${'₽' + book.discountedPrice()}">₽ Price with discount
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

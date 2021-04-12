@@ -1,7 +1,9 @@
 package com.bookshop.mybookshop.services;
 
 import com.bookshop.mybookshop.domain.book.Book;
+import com.bookshop.mybookshop.exception.BookstoreApiWrongParameterException;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +14,7 @@ public interface BookService {
 
     List<Book> receiveBooksByAuthorName(String firstName);
 
-    List<Book> receiveBooksByTitle(String title);
+    List<Book> receiveBooksByTitle(String title) throws BookstoreApiWrongParameterException;
 
     List<Book> receiveBooksWithPriceBetween(Integer min, Integer max);
 
@@ -37,4 +39,8 @@ public interface BookService {
     Page<Book> receivePageOfBooksWithSpecificGenre(String genreName, Integer offset, Integer limit);
 
     Page<Book> receivePageOfBooksWithSpecificAuthor(String firstName, String lastName, Integer offset, Integer limit);
+
+    Book receiveBookBySlug(String slug);
+
+    void updateBookImage(MultipartFile file, String savedPath, String slug);
 }
