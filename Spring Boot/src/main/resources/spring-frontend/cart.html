@@ -46,7 +46,7 @@ p.error-browser
         <main class="Middle-main">
             <h1 class="Middle-title">Корзина
             </h1>
-            <h3 th:if="${isCartEmpty}">
+            <h3 th:if="${isCartContentsEmpty}">
                 Корзина пуста!
             </h3>
             <form class="form Cart" action="#" method="post">
@@ -60,7 +60,9 @@ p.error-browser
                         <div class="Cart-block Cart-block_row">
                             <div class="Cart-block Cart-block_info">
                                 <div class="Cart-author">
-                                    <a href="#" th:text="${book.authorsFullName()}">
+                                    <a href="#"
+                                       th:href="@{'/authors/' + ${book.getAuthors().get(0).lastName + '_' + book.getAuthors().get(0).firstName}}"
+                                       th:text="${book.authorsFullName()}">
                                         Борис Васильевич Бедный
                                     </a>
                                 </div>
@@ -112,6 +114,7 @@ p.error-browser
                                 <div class="Cart-buttons">
                                     <div class="Cart-btn">
                                         <button class="btn btn_primary btn_outline" data-sendstatus="KEPT"
+                                                th:attr="data-bookid = ${book.slug}"
                                                 data-bookid="[1122]"><span class="btn-icon"><img
                                                 src="/assets/img/icons/heart.svg" alt="heart.svg"/></span><span
                                                 class="btn-content">Отложить</span>
