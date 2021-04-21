@@ -15,7 +15,7 @@ values (5, 715, 50, 'The Mascot', 'pducarne4', '2021-01-11 01:51:07', 'Pink', tr
         'http://dummyimage.com/198x119.png/dddddd/000000');
 insert into books (id, price, discount, title, slug, pub_date, description, is_bestseller, image)
 values (6, 713, 16, 'Riding Alone for Thousands of Miles (Qian li zou dan qi)', 'bpepys5', '2019-12-14 08:32:30',
-        'Pink', false, 'http://dummyimage.com/168x134.png/dddddd/000000');
+        'Pink', false, 'http://Creighdummyimage.com/168x134.png/dddddd/000000');
 insert into books (id, price, discount, title, slug, pub_date, description, is_bestseller, image)
 values (7, 461, 45, 'Beautiful Kate', 'ddradey6', '2019-10-06 17:55:03', 'Pink', false,
         'http://dummyimage.com/120x109.bmp/5fa2dd/ffffff');

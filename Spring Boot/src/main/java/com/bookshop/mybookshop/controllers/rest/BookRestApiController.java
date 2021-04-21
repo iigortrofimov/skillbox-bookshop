@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -27,47 +28,52 @@ public class BookRestApiController {
 
     private final BookService bookService;
 
+    @ApiOperation("Get book from BookShop by id")
+    @GetMapping("/by-id")
+    public ApiResponse<Book> bookById(@RequestParam("id") Integer id) {
+        Book book = bookService.receiveBookById(id);
+        return ApiResponse.setBookApiResponse(new ArrayList<>(Collections.singletonList(book)));
+    }
+
     @ApiOperation("Get books from BookShop by author's first name")
     @GetMapping("/by-author")
-    public ResponseEntity<List<Book>> booksByAuthor(@RequestParam("firstName") String firstName) {
-        return ResponseEntity.ok(bookService.receiveBooksByAuthorName(firstName));
+    public ApiResponse<Book> booksByAuthor(@RequestParam("firstName") String firstName) {
+        List<Book> books = bookService.receiveBooksByAuthorName(firstName);
+        return ApiResponse.setBookApiResponse(books);
     }
 
     @ApiOperation("Get books from BookShop by title")
     @GetMapping("/by-title")
-    public ResponseEntity<ApiResponse<Book>> booksByTitle(@RequestParam("title") String title) throws BookstoreApiWrongParameterException {
-        ApiResponse<Book> response = new ApiResponse<>();
+    public ApiResponse<Book> booksByTitle(@RequestParam("title") String title) throws BookstoreApiWrongParameterException {
         List<Book> books = bookService.receiveBooksByTitle(title);
-        response.setData(books);
-        response.setDebugMessage("successful request");
-        response.setMessage("data size: " + books.size() + " elements");
-        response.setHttpStatus(HttpStatus.OK);
-        response.setTimeStamp(LocalDateTime.now());
-        return ResponseEntity.ok(response);
+        return ApiResponse.setBookApiResponse(books);
     }
 
     @ApiOperation("Get books from BookShop by price")
     @GetMapping("/by-price")
-    public ResponseEntity<List<Book>> booksByPrice(@RequestParam("price") Integer price) {
-        return ResponseEntity.ok(bookService.receiveBooksByPrice(price));
+    public ApiResponse<Book> booksByPrice(@RequestParam("price") Integer price) {
+        List<Book> books = bookService.receiveBooksByPrice(price);
+        return ApiResponse.setBookApiResponse(books);
     }
 
     @ApiOperation("Get books from BookShop by price range from min to max price")
     @GetMapping("/with-price-between")
-    public ResponseEntity<List<Book>> booksWithPriceBetween(@RequestParam("min") Integer min, @RequestParam("max") Integer max) {
-        return ResponseEntity.ok(bookService.receiveBooksWithPriceBetween(min, max));
+    public ApiResponse<Book> booksWithPriceBetween(@RequestParam("min") Integer min, @RequestParam("max") Integer max) {
+        List<Book> books = bookService.receiveBooksWithPriceBetween(min, max);
+        return ApiResponse.setBookApiResponse(books);
     }
 
     @ApiOperation("Get books from BookShop with Max discount")
     @GetMapping("/with-max-discount")
-    public ResponseEntity<List<Book>> booksWithMaxDiscount() {
-        return ResponseEntity.ok(bookService.receiveBooksWithMaxDiscount());
+    public ApiResponse<Book> booksWithMaxDiscount() {
+        List<Book> books = bookService.receiveBooksWithMaxDiscount();
+        return ApiResponse.setBookApiResponse(books);
     }
 
     @ApiOperation("Get bestsellers books from BookShop")
     @GetMapping("/bestsellers")
-    public ResponseEntity<List<Book>> bestsellers() {
-        return ResponseEntity.ok(bookService.receiveBestSellers());
+    public ApiResponse<Book> bestsellers() {
+        return ApiResponse.setBookApiResponse(bookService.receiveBestSellers());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)

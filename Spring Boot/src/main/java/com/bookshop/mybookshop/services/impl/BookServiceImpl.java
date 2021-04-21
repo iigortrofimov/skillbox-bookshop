@@ -137,4 +137,9 @@ public class BookServiceImpl implements BookService {
         book.setImage(pathToNewImage);
         bookRepository.save(book);
     }
+
+    @Override
+    public Book receiveBookById(Integer id) {
+        return bookRepository.findById(id).get();
+    }
 }

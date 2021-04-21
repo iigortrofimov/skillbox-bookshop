@@ -26,7 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     public Author receiveAuthorById(Integer authorId) {
-        return authorRepository.getOne(authorId);
+        return authorRepository.findById(authorId).get();
     }
 
     public void setModelWithAuthorInfoByAuthorFullName(String authorFullName, Model model) {
@@ -45,5 +45,10 @@ public class AuthorServiceImpl implements AuthorService {
             model.addAttribute("firstPartDescription", fullDescription.substring(0, 999));
             model.addAttribute("secondPartDescription", fullDescription.substring(999, fullDescription.length() - 1));
         }
+    }
+
+    @Override
+    public Author receiveAuthorByFullName(String firstName, String lastName) {
+        return authorRepository.findByLastNameAndFirstName(lastName, firstName);
     }
 }

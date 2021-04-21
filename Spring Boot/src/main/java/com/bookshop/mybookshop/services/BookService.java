@@ -43,4 +43,6 @@ public interface BookService {
     Book receiveBookBySlug(String slug);
 
     void updateBookImage(MultipartFile file, String savedPath, String slug);
+
+    Book receiveBookById(Integer id);
 }

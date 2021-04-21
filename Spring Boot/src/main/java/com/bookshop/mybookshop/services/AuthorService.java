@@ -15,4 +15,6 @@ public interface AuthorService {
     Author receiveAuthorById(Integer authorId);
 
     void setModelWithAuthorInfoByAuthorFullName(String authorFullName, Model model);
+
+    Author receiveAuthorByFullName(String firstName, String lastName);
 }

@@ -1,9 +1,10 @@
 package com.bookshop.mybookshop.domain.author;
 
 import com.bookshop.mybookshop.domain.book.Book;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ToString(exclude = "id")
 @Entity(name = "authors")
-public class Author {
+public class Author extends RepresentationModel<Author> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,6 @@ public class Author {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "authors_books",
