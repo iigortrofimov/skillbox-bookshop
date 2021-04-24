@@ -4,6 +4,7 @@ import com.bookshop.mybookshop.data.ResourceStorage;
 import com.bookshop.mybookshop.domain.author.Author;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookTag;
+import com.bookshop.mybookshop.domain.review.Review;
 import com.bookshop.mybookshop.dto.BooksPageDto;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
@@ -11,7 +12,13 @@ import com.bookshop.mybookshop.exception.EmptySearchException;
 import com.bookshop.mybookshop.services.AuthorService;
 import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.GenreService;
+import com.bookshop.mybookshop.services.ReviewService;
 import com.bookshop.mybookshop.services.TagService;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -29,12 +36,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 @Controller
 @RequestMapping
 @AllArgsConstructor
@@ -46,6 +47,7 @@ public class MainPageController {
     private final GenreService genreService;
     private final AuthorService authorService;
     private final ResourceStorage resourceStorage;
+    private final ReviewService reviewService;
 
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
@@ -235,5 +237,19 @@ public class MainPageController {
                 .contentType(mediaType)
                 .contentLength(data.length)
                 .body(new ByteArrayResource(data));
+    }
+
+    /**
+     * Receive {@link String} comment by POST method
+     * and save that comment in book's {@link Review} by slug.
+     *
+     * @param comment book's comment.
+     * @param slug    mnemonical identifier.
+     * @return redirect to book page by slug.
+     */
+    @PostMapping("/book/{slug}/review/save")
+    public String saveNewBookImage(@RequestParam String comment, @PathVariable("slug") String slug) {
+        reviewService.addNewReview(slug, comment);
+        return "redirect:/book/" + slug;
     }
 }
