@@ -6,17 +6,16 @@ import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.Genre;
 import com.bookshop.mybookshop.exception.BookstoreApiWrongParameterException;
 import com.bookshop.mybookshop.services.BookService;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Service
@@ -127,6 +126,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> receiveBooksWithSpecificAuthor(String firstName, String lastName) {
+        return bookRepository.findByAuthorsFirstNameAndAuthorsLastName(firstName, lastName);
+    }
+
+    @Override
     public Book receiveBookBySlug(String slug) {
         return bookRepository.findBookBySlug(slug);
     }
@@ -141,5 +145,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book receiveBookById(Integer id) {
         return bookRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Book> receiveBooksBySlugIn(String[] slugs) {
+        return bookRepository.findBooksBySlugIn(slugs);
+    }
+
+    @Override
+    public void saveBook(Book book) {
+        bookRepository.save(book);
     }
 }

@@ -1,11 +1,18 @@
 package com.bookshop.mybookshop.controllers;
 
-import com.bookshop.mybookshop.dao.BookRepository;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookStatus;
 import com.bookshop.mybookshop.dto.BookStatusDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
+import com.bookshop.mybookshop.services.BookService;
+import com.bookshop.mybookshop.services.RatingService;
 import com.bookshop.mybookshop.util.CookieUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/book")
@@ -43,7 +44,9 @@ public class BookShopStatusController {
         return new SearchWordDto();
     }
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
+
+    private final RatingService ratingService;
 
     private static final String POSTPONED_CONTENTS_COOKIE_NAME = "postponedContents";
 
@@ -57,7 +60,7 @@ public class BookShopStatusController {
         } else {
             model.addAttribute("isCartContentsEmpty", false);
             String[] arrayWithBookSlugsFromCookie = CookieUtils.createArrayWithBookSlugsFromCookie(cartContents);
-            List<Book> booksFromCookiesSlugs = bookRepository.findBooksBySlugIn(arrayWithBookSlugsFromCookie);
+            List<Book> booksFromCookiesSlugs = bookService.receiveBooksBySlugIn(arrayWithBookSlugsFromCookie);
             model.addAttribute("bookCart", booksFromCookiesSlugs);
         }
         return "cart";
@@ -71,7 +74,7 @@ public class BookShopStatusController {
         } else {
             model.addAttribute("isPostponedListEmpty", false);
             String[] arrayWithBookSlugsFromCookie = CookieUtils.createArrayWithBookSlugsFromCookie(postponedContents);
-            List<Book> booksFromCookiesSlugs = bookRepository.findBooksBySlugIn(arrayWithBookSlugsFromCookie);
+            List<Book> booksFromCookiesSlugs = bookService.receiveBooksBySlugIn(arrayWithBookSlugsFromCookie);
             model.addAttribute("bookPostponedList", booksFromCookiesSlugs);
         }
         return "postponed";
@@ -82,7 +85,6 @@ public class BookShopStatusController {
                                          @CookieValue(name = "cartContents", required = false) String cartContents,
                                          @CookieValue(name = "postponedContents", required = false) String postponedContents,
                                          HttpServletResponse response, Model model, BookStatusDto bookStatusDto) {
-        System.out.println(bookStatusDto);
         if (bookStatusDto.getStatus().equals(BookStatus.CART.name())) {
             addBookToCookieContentBySlug(cartContents, CART_CONTENTS_COOKIE_NAME, slug, response, model);
             changeBookStatus(slug, BookStatus.CART);
@@ -120,6 +122,20 @@ public class BookShopStatusController {
         return "redirect:/book/postponed";
     }
 
+    /**
+     * Receives rating value by POST method
+     * and saves it into {@link Book}.
+     *
+     * @param value rating value.
+     * @param slug  mnemonical identifier.
+     * @return redirect to book page by slug.
+     */
+    @PostMapping("/changeBookStatus/rating/{slug}")
+    public String addRatingValue(@RequestParam Integer value, @PathVariable("slug") String slug) {
+        ratingService.addRateIntoOverallRating(slug, value);
+        return "redirect:/book/" + slug;
+    }
+
     private void addBookToCookieContentBySlug(String stringFromCookie, String cookieName, String bookSlug,
                                               HttpServletResponse response, Model model) {
         if (stringFromCookie == null || stringFromCookie.equals("")) {
@@ -141,9 +157,9 @@ public class BookShopStatusController {
     }
 
     private void changeBookStatus(String bookSlug, BookStatus bookStatus) {
-        Book bookBySlug = bookRepository.findBookBySlug(bookSlug);
+        Book bookBySlug = bookService.receiveBookBySlug(bookSlug);
         bookBySlug.getStatuses().add(bookStatus);
-        bookRepository.save(bookBySlug);
+        bookService.saveBook(bookBySlug);
     }
 
     private void removeBookBySlugFromCookieContentAndSetModelAttr(String contentFromCookie, String bookSlug, String cookieName,
@@ -156,8 +172,8 @@ public class BookShopStatusController {
         model.addAttribute("is" + cookieName.substring(0, 1).toUpperCase() + cookieName.substring(1) +
                 "Empty", false);
 
-        Book book = bookRepository.findBookBySlug(bookSlug);
+        Book book = bookService.receiveBookBySlug(bookSlug);
         book.getStatuses().remove(bookStatus);
-        bookRepository.save(book);
+        bookService.saveBook(book);
     }
 }

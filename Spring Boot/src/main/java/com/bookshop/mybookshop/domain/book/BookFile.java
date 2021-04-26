@@ -1,17 +1,15 @@
 package com.bookshop.mybookshop.domain.book;
 
-import lombok.Data;
-import lombok.ToString;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity(name = "book_files")
 @Data
@@ -35,6 +33,7 @@ public class BookFile {
      * Book which has this book file;
      */
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 

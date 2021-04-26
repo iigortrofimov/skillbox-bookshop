@@ -5,15 +5,14 @@ import com.bookshop.mybookshop.controllers.rest.BookRestApiController;
 import com.bookshop.mybookshop.domain.author.Author;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Data;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.http.HttpStatus;
 
 /**
  * ApiResponse.
@@ -68,7 +67,7 @@ public class ApiResponse<T> {
                                         .bookById(book.getId())).withSelfRel(),
                         linkTo(
                                 methodOn(AuthorRestApiController.class)
-                                        .authorById(book.getAuthors().get(0).getId())).withRel("author_link")))
+                                        .authorById(book.getAuthors().get(0).getId())).withRel("book_author")))
                 .peek(book -> book.getAuthors()
                         .forEach(author -> author.add(
                                 linkTo(
@@ -80,9 +79,14 @@ public class ApiResponse<T> {
 
     public static ApiResponse<Author> setAuthorApiResponse(List<Author> authors) {
         List<Author> authorsWithRef = authors.stream()
-                .map(author -> author.add(linkTo(
-                        methodOn(AuthorRestApiController.class)
-                                .authorById(author.getId())).withSelfRel()))
+                .map(author -> author.add(
+                        linkTo(
+                                methodOn(AuthorRestApiController.class)
+                                        .authorById(author.getId())).withSelfRel(),
+                        linkTo(
+                                methodOn(BookRestApiController.class)
+                                        .booksByAuthor(author.getFirstName(), author.getLastName())).withRel("author_books")
+                ))
                 .peek(author -> author.getBooks().forEach(book -> book.add(
                         linkTo(
                                 methodOn(BookRestApiController.class)

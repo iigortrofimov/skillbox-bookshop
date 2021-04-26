@@ -1,14 +1,13 @@
 package com.bookshop.mybookshop.dao;
 
 import com.bookshop.mybookshop.domain.book.Book;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -47,6 +46,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findByGenresIdIn(List<Integer> ids, Pageable nextPage);
 
     Page<Book> findByAuthorsFirstNameAndAuthorsLastName(String firstName, String lastName, Pageable nextPage);
+
+    List<Book> findByAuthorsFirstNameAndAuthorsLastName(String firstName, String lastName);
 
     Book findBookBySlug(String slug);
 

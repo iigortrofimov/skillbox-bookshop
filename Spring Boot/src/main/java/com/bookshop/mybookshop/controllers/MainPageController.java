@@ -12,6 +12,7 @@ import com.bookshop.mybookshop.exception.EmptySearchException;
 import com.bookshop.mybookshop.services.AuthorService;
 import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.GenreService;
+import com.bookshop.mybookshop.services.RatingService;
 import com.bookshop.mybookshop.services.ReviewService;
 import com.bookshop.mybookshop.services.TagService;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class MainPageController {
     private final AuthorService authorService;
     private final ResourceStorage resourceStorage;
     private final ReviewService reviewService;
+    private final RatingService ratingService;
 
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
@@ -200,12 +202,13 @@ public class MainPageController {
     public String bookPage(@PathVariable String slug, Model model) {
         Book book = bookService.receiveBookBySlug(slug);
         model.addAttribute("slugBook", book);
+        model.addAttribute("bookRating", ratingService.receiveBookRating(slug));
         return "books/slug";
     }
 
     /**
      * Receive {@link MultipartFile} file by POST method
-     * and save/update that file in specific book by slug.
+     * and saveBook/update that file in specific book by slug.
      *
      * @param file uploaded file.
      * @param slug mnemonical identifier.
@@ -241,7 +244,7 @@ public class MainPageController {
 
     /**
      * Receive {@link String} comment by POST method
-     * and save that comment in book's {@link Review} by slug.
+     * and saveBook that comment in book's {@link Review} by slug.
      *
      * @param comment book's comment.
      * @param slug    mnemonical identifier.

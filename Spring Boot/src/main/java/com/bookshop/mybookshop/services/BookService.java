@@ -2,11 +2,10 @@ package com.bookshop.mybookshop.services;
 
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.exception.BookstoreApiWrongParameterException;
-import org.springframework.data.domain.Page;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface BookService {
 
@@ -40,9 +39,15 @@ public interface BookService {
 
     Page<Book> receivePageOfBooksWithSpecificAuthor(String firstName, String lastName, Integer offset, Integer limit);
 
+    List<Book> receiveBooksWithSpecificAuthor(String firstName, String lastName);
+
     Book receiveBookBySlug(String slug);
 
     void updateBookImage(MultipartFile file, String savedPath, String slug);
 
     Book receiveBookById(Integer id);
+
+    List<Book> receiveBooksBySlugIn(String[] slugs);
+
+    void saveBook(Book book);
 }

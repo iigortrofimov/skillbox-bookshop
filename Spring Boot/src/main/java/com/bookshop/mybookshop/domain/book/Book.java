@@ -9,13 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Formula;
-import org.springframework.hateoas.RepresentationModel;
-
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -29,13 +25,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "authors"})
 @Entity(name = "books")
 @ApiModel(description = "entity representing a book")
 public class Book extends RepresentationModel<Book> {
@@ -109,7 +108,6 @@ public class Book extends RepresentationModel<Book> {
     @ApiModelProperty("list of users who manipulated with this book")
     private List<User> users = new ArrayList<>();
 
-
     @CollectionTable(name = "books_statuses",
             joinColumns = @JoinColumn(name = "book_id"))
     @Column(name = "status", nullable = false)
@@ -117,6 +115,14 @@ public class Book extends RepresentationModel<Book> {
     @ElementCollection(targetClass = BookStatus.class)
     @ApiModelProperty("book statuses")
     private List<BookStatus> statuses = new ArrayList<>();
+
+    @CollectionTable(name = "books_ratings",
+            joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "rating", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = BookRating.class)
+    @ApiModelProperty("book rating")
+    private List<BookRating> rating = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
     @ApiModelProperty("list of transaction with this book")

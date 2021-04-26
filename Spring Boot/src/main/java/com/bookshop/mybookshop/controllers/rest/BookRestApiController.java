@@ -6,6 +6,9 @@ import com.bookshop.mybookshop.exception.BookstoreApiWrongParameterException;
 import com.bookshop.mybookshop.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -35,10 +34,10 @@ public class BookRestApiController {
         return ApiResponse.setBookApiResponse(new ArrayList<>(Collections.singletonList(book)));
     }
 
-    @ApiOperation("Get books from BookShop by author's first name")
+    @ApiOperation("Get books from BookShop by author's full name")
     @GetMapping("/by-author")
-    public ApiResponse<Book> booksByAuthor(@RequestParam("firstName") String firstName) {
-        List<Book> books = bookService.receiveBooksByAuthorName(firstName);
+    public ApiResponse<Book> booksByAuthor(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        List<Book> books = bookService.receiveBooksWithSpecificAuthor(firstName, lastName);
         return ApiResponse.setBookApiResponse(books);
     }
 
