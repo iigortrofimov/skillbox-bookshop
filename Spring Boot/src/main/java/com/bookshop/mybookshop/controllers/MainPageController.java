@@ -255,4 +255,11 @@ public class MainPageController {
         reviewService.addNewReview(slug, comment);
         return "redirect:/book/" + slug;
     }
+
+    @PostMapping("/book/rateBookReview/{bookSlug}")
+    public String handleBookReviewRateChanging(@RequestParam Integer value, @RequestParam Integer reviewid,
+                                               @PathVariable("bookSlug") String bookSlug) {
+        reviewService.changeBookReviewRate(reviewid, value);
+        return "redirect:/book/" + bookSlug;
+    }
 }

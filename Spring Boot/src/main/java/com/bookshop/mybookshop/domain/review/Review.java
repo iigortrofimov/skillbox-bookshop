@@ -54,4 +54,12 @@ public class Review {
             return "undefined";
         }
     }
+
+    public Integer likeCount() {
+        return (int) likes.stream().filter(reviewLike -> reviewLike.getValue().equals(true)).count();
+    }
+
+    public Integer disLikeCount() {
+        return (int) likes.stream().filter(reviewLike -> reviewLike.getValue().equals(false)).count();
+    }
 }

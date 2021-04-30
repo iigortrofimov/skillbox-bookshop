@@ -1,10 +1,13 @@
 package com.bookshop.mybookshop.services.impl;
 
+import com.bookshop.mybookshop.dao.BookRatingRepository;
 import com.bookshop.mybookshop.dao.BookRepository;
 import com.bookshop.mybookshop.domain.book.Book;
+import com.bookshop.mybookshop.domain.book.BookRate;
 import com.bookshop.mybookshop.domain.book.BookRating;
 import com.bookshop.mybookshop.dto.RatingDto;
 import com.bookshop.mybookshop.services.RatingService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,30 +21,35 @@ import org.springframework.stereotype.Service;
 public class RatingServiceImpl implements RatingService {
 
     private final BookRepository bookRepository;
+    private final BookRatingRepository bookRatingRepository;
 
     @Override
     public void addRateIntoOverallRating(String slug, Integer value) {
         Book book = bookRepository.findBookBySlug(slug);
-        List<BookRating> rating = book.getRating();
+        BookRating newRate = new BookRating();
+        newRate.setDateTime(LocalDateTime.now());
+        newRate.setBook(book);
         switch (value) {
             case (1):
-                rating.add(BookRating.ONE);
+                newRate.setBookRate(BookRate.ONE);
                 break;
             case (2):
-                rating.add(BookRating.TWO);
+                newRate.setBookRate(BookRate.TWO);
                 break;
             case (3):
-                rating.add(BookRating.THREE);
+                newRate.setBookRate(BookRate.THREE);
                 break;
             case (4):
-                rating.add(BookRating.FOUR);
+                newRate.setBookRate(BookRate.FOUR);
                 break;
             case (5):
-                rating.add(BookRating.FIVE);
+                newRate.setBookRate(BookRate.FIVE);
                 break;
             default:
                 break;
         }
+        BookRating savedRating = bookRatingRepository.save(newRate);
+        book.getRating().add(savedRating);
         bookRepository.save(book);
     }
 
@@ -50,18 +58,18 @@ public class RatingServiceImpl implements RatingService {
         RatingDto ratingDto = new RatingDto();
         Book book = bookRepository.findBookBySlug(slug);
         List<BookRating> rating = book.getRating();
-        Map<String, List<BookRating>> ratingValueMap = rating.stream().collect(Collectors.groupingBy(BookRating::name));
+        Map<BookRate, List<BookRating>> bookRateListMap = rating.stream().collect(Collectors.groupingBy(BookRating::getBookRate));
         ratingDto.setRatingOverallCount(book.getRating().size());
-        if (!ratingValueMap.isEmpty()) {
-            ratingDto.setOneStarCount(Optional.ofNullable(ratingValueMap.get(BookRating.ONE.name()))
+        if (!bookRateListMap.isEmpty()) {
+            ratingDto.setOneStarCount(Optional.ofNullable(bookRateListMap.get(BookRate.ONE))
                     .orElse(new ArrayList<>()).size());
-            ratingDto.setTwoStarsCount(Optional.ofNullable(ratingValueMap.get(BookRating.TWO.name()))
+            ratingDto.setTwoStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.TWO))
                     .orElse(new ArrayList<>()).size());
-            ratingDto.setThreeStarsCount(Optional.ofNullable(ratingValueMap.get(BookRating.THREE.name()))
+            ratingDto.setThreeStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.THREE))
                     .orElse(new ArrayList<>()).size());
-            ratingDto.setFourStarsCount(Optional.ofNullable(ratingValueMap.get(BookRating.FOUR.name()))
+            ratingDto.setFourStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.FOUR))
                     .orElse(new ArrayList<>()).size());
-            ratingDto.setFiveStarsCount(Optional.ofNullable(ratingValueMap.get(BookRating.FIVE.name()))
+            ratingDto.setFiveStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.FIVE))
                     .orElse(new ArrayList<>()).size());
         }
         return ratingDto;

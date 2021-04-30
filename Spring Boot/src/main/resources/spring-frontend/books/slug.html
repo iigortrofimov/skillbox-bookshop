@@ -210,7 +210,8 @@ p.error-browser
                                             d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
                                     </g>
                                   </g>
-                                </svg></span></span><span class="Rating-title" th:text="${bookRating.getFourStarsCount()}">4</span></span><br><span
+                                </svg></span></span><span class="Rating-title"
+                                                          th:text="${bookRating.getFourStarsCount()}">4</span></span><br><span
                                                     class="Rating"><span class="Rating-stars"><span
                                                     class="Rating-star Rating-star_view">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
@@ -252,7 +253,8 @@ p.error-browser
                                             d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
                                     </g>
                                   </g>
-                                </svg></span></span><span class="Rating-title" th:text="${bookRating.getThreeStarsCount()}">0</span></span><br><span
+                                </svg></span></span><span class="Rating-title"
+                                                          th:text="${bookRating.getThreeStarsCount()}">0</span></span><br><span
                                                     class="Rating"><span class="Rating-stars"><span
                                                     class="Rating-star Rating-star_view">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
@@ -294,7 +296,9 @@ p.error-browser
                                             d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
                                     </g>
                                   </g>
-                                </svg></span></span><span class="Rating-title" th:text="${bookRating.getTwoStarsCount()}">10</span></span><br><span class="Rating"><span
+                                </svg></span></span><span class="Rating-title"
+                                                          th:text="${bookRating.getTwoStarsCount()}">10</span></span><br><span
+                                                    class="Rating"><span
                                                     class="Rating-stars"><span class="Rating-star Rating-star_view">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                                   <g>
@@ -335,7 +339,8 @@ p.error-browser
                                             d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
                                     </g>
                                   </g>
-                                </svg></span></span><span class="Rating-title" th:text="${bookRating.getOneStarCount()}">3</span></span>
+                                </svg></span></span><span class="Rating-title"
+                                                          th:text="${bookRating.getOneStarCount()}">3</span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -565,16 +570,21 @@ p.error-browser
                                     <div class="Comment-footer">
                                         <div class="Comment-appeal">
                                             <button class="btn btn_white btn_like" data-btntype="check"
-                                                    data-check="false" data-btnradio="one1" data-likeid="333"><span
-                                                    class="btn-icon"><img src="/assets/img/icons/comment/like.svg"
-                                                                          alt="like.svg"/></span><span
-                                                    class="btn-content">0</span>
+                                                    data-check="false" data-btnradio="one1" data-likeid="333"
+                                                    th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${comment.id}">
+                                                <span
+                                                        class="btn-icon"><img src="/assets/img/icons/comment/like.svg"
+                                                                              alt="like.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.likeCount()}">0</span>
                                             </button>
                                             <button class="btn btn_white btn_dislike" data-btntype="check"
-                                                    data-check="false" data-btnradio="one1" data-likeid="333"><span
-                                                    class="btn-icon"><img src="/assets/img/icons/comment/dislike.svg"
-                                                                          alt="dislike.svg"/></span><span
-                                                    class="btn-content">0</span>
+                                                    data-check="false" data-btnradio="one1" data-likeid="333"
+                                                    th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${comment.id}">
+                                                <span
+                                                        class="btn-icon"><img
+                                                        src="/assets/img/icons/comment/dislike.svg"
+                                                        alt="dislike.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.disLikeCount()}">0</span>
                                             </button>
                                         </div>
                                         <!--                                        <button class="Spoiler-trigger btn btn_primary btn_nr" type="button"

@@ -116,11 +116,7 @@ public class Book extends RepresentationModel<Book> {
     @ApiModelProperty("book statuses")
     private List<BookStatus> statuses = new ArrayList<>();
 
-    @CollectionTable(name = "books_ratings",
-            joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "rating", nullable = false)
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = BookRating.class)
+    @OneToMany(mappedBy = "book")
     @ApiModelProperty("book rating")
     private List<BookRating> rating = new ArrayList<>();
 
