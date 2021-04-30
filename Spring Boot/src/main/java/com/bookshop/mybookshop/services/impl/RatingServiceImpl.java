@@ -2,17 +2,14 @@ package com.bookshop.mybookshop.services.impl;
 
 import com.bookshop.mybookshop.dao.BookRatingRepository;
 import com.bookshop.mybookshop.dao.BookRepository;
+import com.bookshop.mybookshop.dao.IBookRatingCount;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookRate;
 import com.bookshop.mybookshop.domain.book.BookRating;
 import com.bookshop.mybookshop.dto.RatingDto;
 import com.bookshop.mybookshop.services.RatingService;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,23 +52,31 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDto receiveBookRating(String slug) {
+        Book bookBySlug = bookRepository.findBookBySlug(slug);
+        List<IBookRatingCount> ratingCount = bookRatingRepository.countBookRatesCount(bookBySlug.getId());
         RatingDto ratingDto = new RatingDto();
-        Book book = bookRepository.findBookBySlug(slug);
-        List<BookRating> rating = book.getRating();
-        Map<BookRate, List<BookRating>> bookRateListMap = rating.stream().collect(Collectors.groupingBy(BookRating::getBookRate));
-        ratingDto.setRatingOverallCount(book.getRating().size());
-        if (!bookRateListMap.isEmpty()) {
-            ratingDto.setOneStarCount(Optional.ofNullable(bookRateListMap.get(BookRate.ONE))
-                    .orElse(new ArrayList<>()).size());
-            ratingDto.setTwoStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.TWO))
-                    .orElse(new ArrayList<>()).size());
-            ratingDto.setThreeStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.THREE))
-                    .orElse(new ArrayList<>()).size());
-            ratingDto.setFourStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.FOUR))
-                    .orElse(new ArrayList<>()).size());
-            ratingDto.setFiveStarsCount(Optional.ofNullable(bookRateListMap.get(BookRate.FIVE))
-                    .orElse(new ArrayList<>()).size());
-        }
+        ratingDto.setRatingOverallCount((int) bookRatingRepository.countByBookSlug(slug));
+        ratingCount.forEach(bookRatingCount -> {
+            switch (bookRatingCount.getRate()) {
+                case ONE:
+                    ratingDto.setOneStarCount(bookRatingCount.getBookRateCount());
+                    break;
+                case TWO:
+                    ratingDto.setTwoStarsCount(bookRatingCount.getBookRateCount());
+                    break;
+                case THREE:
+                    ratingDto.setThreeStarsCount(bookRatingCount.getBookRateCount());
+                    break;
+                case FOUR:
+                    ratingDto.setFourStarsCount(bookRatingCount.getBookRateCount());
+                    break;
+                case FIVE:
+                    ratingDto.setFiveStarsCount(bookRatingCount.getBookRateCount());
+                    break;
+                default:
+                    break;
+            }
+        });
         return ratingDto;
     }
 }
