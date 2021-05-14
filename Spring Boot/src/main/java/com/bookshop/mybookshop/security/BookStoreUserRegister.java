@@ -26,6 +26,7 @@ public class BookStoreUserRegister {
             newUser.setName(registrationForm.getName());
             newUser.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
             newUser.setPhone(registrationForm.getPhone());
+            newUser.setProvider(Provider.LOCAL);
             bookStoreUserRepository.save(newUser);
         }
     }
@@ -50,6 +51,15 @@ public class BookStoreUserRegister {
     }
 
     public BookStoreUser getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof BookStoreUserDetails) {
+            return ((BookStoreUserDetails) principal).getBookStoreUser();
+        } else if (principal instanceof CustomOAuth2User) {
+            BookStoreUser bookStoreUser = new BookStoreUser();
+            bookStoreUser.setName(((CustomOAuth2User) principal).getName());
+            bookStoreUser.setEmail(((CustomOAuth2User) principal).getEmail());
+            return bookStoreUser;
+        }
         BookStoreUserDetails bookStoreUserDetails = (BookStoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return bookStoreUserDetails.getBookStoreUser();
     }

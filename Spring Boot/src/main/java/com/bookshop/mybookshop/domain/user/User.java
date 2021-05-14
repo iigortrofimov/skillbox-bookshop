@@ -46,9 +46,6 @@ public class User {
     private Integer balance;
 
     @OneToMany(mappedBy = "user")
-    private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
     private List<ReviewLike> likes = new ArrayList<>();
 
     @OneToOne(mappedBy = "user")

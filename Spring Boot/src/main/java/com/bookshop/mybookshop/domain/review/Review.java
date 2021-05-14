@@ -1,7 +1,7 @@
 package com.bookshop.mybookshop.domain.review;
 
 import com.bookshop.mybookshop.domain.book.Book;
-import com.bookshop.mybookshop.domain.user.User;
+import com.bookshop.mybookshop.security.BookStoreUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,7 +30,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private BookStoreUser user;
 
     @ManyToOne
     @JsonIgnore

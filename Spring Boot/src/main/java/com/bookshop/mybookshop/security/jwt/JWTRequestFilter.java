@@ -21,6 +21,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     private final BookStoreUserDetailsService bookStoreUserDetailsService;
     private final JWTUtil jwtUtil;
+    private final JWTTokenBlackList jwtTokenBlackList;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -28,18 +29,16 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
         Cookie[] cookies = request.getCookies();
-
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     token = cookie.getValue();
                     username = jwtUtil.extractUsername(token);
                 }
-
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     BookStoreUserDetails userDetails =
                             (BookStoreUserDetails) bookStoreUserDetailsService.loadUserByUsername(username);
-                    if (jwtUtil.validateToken(token, userDetails)) {
+                    if (!jwtTokenBlackList.findByToken(token).isPresent() && jwtUtil.validateToken(token, userDetails)) {
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -1,5 +1,6 @@
 package com.bookshop.mybookshop.security;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,11 +15,24 @@ public class BookStoreUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        BookStoreUser bookStoreUser = bookStoreUserRepository.findByEmail(email);
-        if (bookStoreUser != null) {
-            return new BookStoreUserDetails(bookStoreUser);
-        } else {
-            throw new UsernameNotFoundException("User not found!");
+        BookStoreUser bookStoreUser = getAuthenticatedUserByEmail(email);
+        return new BookStoreUserDetails(bookStoreUser);
+    }
+
+    public BookStoreUser getAuthenticatedUserByEmail(String email) throws UsernameNotFoundException {
+        return Optional.ofNullable(bookStoreUserRepository
+                .findByEmail(email))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    }
+
+    public void processOAuthPostLogin(String email, String name) {
+        BookStoreUser existUser = bookStoreUserRepository.findByEmail(email);
+        if (existUser == null) {
+            BookStoreUser newUser = new BookStoreUser();
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setProvider(Provider.GOOGLE);
+            bookStoreUserRepository.save(newUser);
         }
     }
 }

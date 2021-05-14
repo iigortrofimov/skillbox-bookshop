@@ -5,6 +5,7 @@ import com.bookshop.mybookshop.domain.author.Author;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookTag;
 import com.bookshop.mybookshop.domain.review.Review;
+import com.bookshop.mybookshop.dto.BookReviewRateValue;
 import com.bookshop.mybookshop.dto.BooksPageDto;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -251,15 +253,16 @@ public class MainPageController {
      * @return redirect to book page by slug.
      */
     @PostMapping("/book/{slug}/review/save")
-    public String saveNewBookImage(@RequestParam String comment, @PathVariable("slug") String slug) {
-        reviewService.addNewReview(slug, comment);
+    public String saveNewBookImage(@RequestParam String comment, @RequestParam(required = false) String authorName,
+                                   @PathVariable("slug") String slug) {
+        reviewService.addNewReview(slug, comment, authorName);
         return "redirect:/book/" + slug;
     }
 
     @PostMapping("/book/rateBookReview/{bookSlug}")
-    public String handleBookReviewRateChanging(@RequestParam Integer value, @RequestParam Integer reviewid,
-                                               @PathVariable("bookSlug") String bookSlug) {
-        reviewService.changeBookReviewRate(reviewid, value);
+    public String handleBookReviewRateChanging(@RequestBody BookReviewRateValue reviewRateValue,
+                                               @PathVariable("bookSlug") String bookSlug ) {
+        reviewService.changeBookReviewRate(reviewRateValue.getReviewid(), reviewRateValue.getValue());
         return "redirect:/book/" + bookSlug;
     }
 }

@@ -78,6 +78,16 @@ public class AuthUserController {
         return "profile";
     }
 
+    @GetMapping("/403")
+    public String handle403() {
+        return "403";
+    }
+
+    @GetMapping("/401")
+    public String handle401() {
+        return "401";
+    }
+
 /*    @GetMapping("/logout")
     public String handleLogout(HttpServletRequest request) {
         HttpSession session = request.getSession();

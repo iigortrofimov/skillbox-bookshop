@@ -9,7 +9,9 @@
 <html class="ie9" lang="ru">
 <![endif]-->
 <!--[if gt IE 9]><!-->
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--<![endif]-->
 <head>
     <title>Тут название страницы написать</title>
     <meta name="description" content="Описание страницы">
@@ -411,11 +413,12 @@ p.error-browser
                             </div>
                             <div class="ProductCard-cost">
                                 <span class="ProductCard-titleProp"
-                                      th:text="${slugBook.price}">
+                                      th:inline="text">
                                 Цена:
                             </span>
-                                <span class="ProductCard-priceOld">₽300</span><span class="ProductCard-price"
-                                                                                    th:text="${slugBook.discountedPrice()}">
+                                <span class="ProductCard-priceOld" th:text="${slugBook.price}">₽300</span><span
+                                    class="ProductCard-price"
+                                    th:text="${slugBook.discountedPrice()}">
                                 ₽180
                                 </span>
                             </div>
@@ -568,7 +571,7 @@ p.error-browser
                                                                             </p>
                                                                         </div>-->
                                     <div class="Comment-footer">
-                                        <div class="Comment-appeal">
+                                        <div sec:authorize="isAuthenticated()" class="Comment-appeal">
                                             <button class="btn btn_white btn_like" data-btntype="check"
                                                     data-check="false" data-btnradio="one1" data-likeid="333"
                                                     th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${comment.id}">
@@ -587,6 +590,21 @@ p.error-browser
                                                     class="btn-content" th:text="${comment.disLikeCount()}">0</span>
                                             </button>
                                         </div>
+                                        <div sec:authorize="!isAuthenticated()" class="Comment-appeal">
+                                            <span class="btn btn_white btn_like">
+                                                <span
+                                                        class="btn-icon"><img src="/assets/img/icons/comment/like.svg"
+                                                                              alt="like.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.likeCount()}">0</span>
+                                            </span>
+                                            <span class="btn btn_white btn_dislike" >
+                                                <span
+                                                        class="btn-icon"><img
+                                                        src="/assets/img/icons/comment/dislike.svg"
+                                                        alt="dislike.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.disLikeCount()}">0</span>
+                                            </span>
+                                        </div>
                                         <!--                                        <button class="Spoiler-trigger btn btn_primary btn_nr" type="button"
                                                                                         data-showtext="Свернуть отзыв" data-hidetext="Показать отзыв полностью">
                                                                                 </button>-->
@@ -596,13 +614,16 @@ p.error-browser
                         </div>
                     </div>
                 </div>
-                <form name="review" method="post" action="#"
-                      th:action="${'/book/' + slugBook.slug + '/review/save'}">
-                    <p><b>Введите ваш отзыв:</b><Br>
-                        <textarea name="comment" cols="40" rows="3"></textarea></p>
-                    <p><input type="submit" value="Отправить">
-                        <input type="reset" value="Очистить"></p>
-                </form>
+                <div sec:authorize="isAuthenticated()">
+                    <form name="review" method="post" action="#"
+                          th:action="${'/book/' + slugBook.slug + '/review/save'}">
+                        <p><b>Введите ваш отзыв:</b><Br>
+                            <textarea name="comment" cols="40" rows="3"></textarea></p>
+                        <p><input type="hidden" name="authorName" th:value="${#authorization.getAuthentication().name}" value="0">
+                            <input type="submit" value="Отправить">
+                            <input type="reset" value="Очистить"></p>
+                    </form>
+                </div>
             </div>
         </main>
     </div>

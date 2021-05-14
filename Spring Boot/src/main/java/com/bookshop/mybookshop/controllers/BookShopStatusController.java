@@ -2,6 +2,7 @@ package com.bookshop.mybookshop.controllers;
 
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookStatus;
+import com.bookshop.mybookshop.dto.BookRateValue;
 import com.bookshop.mybookshop.dto.BookStatusDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.services.BookService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -84,7 +86,7 @@ public class BookShopStatusController {
     public String handleChangeBookStatus(@PathVariable String slug,
                                          @CookieValue(name = "cartContents", required = false) String cartContents,
                                          @CookieValue(name = "postponedContents", required = false) String postponedContents,
-                                         HttpServletResponse response, Model model, BookStatusDto bookStatusDto) {
+                                         HttpServletResponse response, Model model, @RequestBody BookStatusDto bookStatusDto) {
         if (bookStatusDto.getStatus().equals(BookStatus.CART.name())) {
             addBookToCookieContentBySlug(cartContents, CART_CONTENTS_COOKIE_NAME, slug, response, model);
             changeBookStatus(slug, BookStatus.CART);
@@ -126,13 +128,13 @@ public class BookShopStatusController {
      * Receives rating value by POST method
      * and saves it into {@link Book}.
      *
-     * @param value rating value.
+     * @param bookRateValue rating value.
      * @param slug  mnemonical identifier.
      * @return redirect to book page by slug.
      */
     @PostMapping("/changeBookStatus/rating/{slug}")
-    public String addRatingValue(@RequestParam Integer value, @PathVariable("slug") String slug) {
-        ratingService.addRateIntoOverallRating(slug, value);
+    public String addRatingValue(@RequestBody BookRateValue bookRateValue, @PathVariable("slug") String slug) {
+        ratingService.addRateIntoOverallRating(slug, bookRateValue.getValue());
         return "redirect:/book/" + slug;
     }
 
