@@ -16,10 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
-@ToString(exclude = {"id", "book"})
+@ToString(exclude = {"id", "book", "user", "likes"})
 @Entity(name = "book_reviews")
 @Data
 public class Review {
@@ -30,6 +31,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     private BookStoreUser user;
 
     @ManyToOne
@@ -43,6 +45,7 @@ public class Review {
     @Column(nullable = false)
     private String text;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "review")
     private List<ReviewLike> likes = new ArrayList<>();
 

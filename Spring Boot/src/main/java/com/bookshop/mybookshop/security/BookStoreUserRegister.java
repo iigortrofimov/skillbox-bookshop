@@ -19,7 +19,7 @@ public class BookStoreUserRegister {
     private final BookStoreUserDetailsService bookStoreUserDetailsService;
     private final JWTUtil jwtUtil;
 
-    public void registerNewUser(RegistrationForm registrationForm) {
+    public BookStoreUser registerNewUser(RegistrationForm registrationForm) {
         if (bookStoreUserRepository.findByEmail(registrationForm.getEmail()) == null) {
             BookStoreUser newUser = new BookStoreUser();
             newUser.setEmail(registrationForm.getEmail());
@@ -27,8 +27,9 @@ public class BookStoreUserRegister {
             newUser.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
             newUser.setPhone(registrationForm.getPhone());
             newUser.setProvider(Provider.LOCAL);
-            bookStoreUserRepository.save(newUser);
+            return bookStoreUserRepository.save(newUser);
         }
+        return null;
     }
 
     public ContactConfirmationResponse login(ContactConfirmationPayload payload) {

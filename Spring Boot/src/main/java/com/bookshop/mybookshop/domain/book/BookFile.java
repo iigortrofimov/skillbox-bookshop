@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Entity(name = "book_files")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "book"})
 public class BookFile {
 
     @Id

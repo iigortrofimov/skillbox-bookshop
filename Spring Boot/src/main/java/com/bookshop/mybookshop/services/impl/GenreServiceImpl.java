@@ -4,18 +4,20 @@ import com.bookshop.mybookshop.dao.GenreRepository;
 import com.bookshop.mybookshop.domain.book.Genre;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.services.GenreService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
     public List<GenreDto> receiveAllGenresDtoSortedList() {
         //итоговый список на отдачу
@@ -47,8 +49,14 @@ public class GenreServiceImpl implements GenreService {
         //count
         Integer count = genreDtos.stream()
                 .map(GenreDto::getCount)
-                .reduce(0, Integer::sum);
+                .map(Optional::ofNullable)
+                .reduce(sum)
+                .flatMap(Function.identity())
+                .orElse(0);
         genreDto.setCount(count + genre.getCount());
         return genreDto;
     }
+
+    private static final BinaryOperator<Optional<Integer>> sum = (a, b) -> a.isPresent() ?
+            (b.isPresent() ? a.map(n -> b.get() + n) : a) : b;
 }

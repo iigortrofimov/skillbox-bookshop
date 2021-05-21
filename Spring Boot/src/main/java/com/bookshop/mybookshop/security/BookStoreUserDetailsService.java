@@ -19,20 +19,21 @@ public class BookStoreUserDetailsService implements UserDetailsService {
         return new BookStoreUserDetails(bookStoreUser);
     }
 
-    public BookStoreUser getAuthenticatedUserByEmail(String email) throws UsernameNotFoundException {
+    private BookStoreUser getAuthenticatedUserByEmail(String email) throws UsernameNotFoundException {
         return Optional.ofNullable(bookStoreUserRepository
                 .findByEmail(email))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
-    public void processOAuthPostLogin(String email, String name) {
+    public BookStoreUser processOAuthPostLogin(String email, String name) {
         BookStoreUser existUser = bookStoreUserRepository.findByEmail(email);
         if (existUser == null) {
             BookStoreUser newUser = new BookStoreUser();
             newUser.setEmail(email);
             newUser.setName(name);
             newUser.setProvider(Provider.GOOGLE);
-            bookStoreUserRepository.save(newUser);
+            return bookStoreUserRepository.save(newUser);
         }
+        return existUser;
     }
 }

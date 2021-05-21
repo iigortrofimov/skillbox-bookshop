@@ -1,6 +1,7 @@
 package com.bookshop.mybookshop.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
@@ -36,24 +37,24 @@ public class JWTUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws ExpiredJwtException {
         Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws ExpiredJwtException {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token) throws ExpiredJwtException {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Date extractExpiration(String token) {
+    public Date extractExpiration(String token) throws ExpiredJwtException {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) throws ExpiredJwtException {
         return extractExpiration(token).before(new Date());
     }
 

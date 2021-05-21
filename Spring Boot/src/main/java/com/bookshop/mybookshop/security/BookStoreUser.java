@@ -1,6 +1,7 @@
 package com.bookshop.mybookshop.security;
 
 import com.bookshop.mybookshop.domain.review.Review;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -12,12 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
 @Table(name = "usr")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "reviews"})
 public class BookStoreUser {
 
     @Id
@@ -28,7 +30,9 @@ public class BookStoreUser {
     private String phone;
     private String password;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

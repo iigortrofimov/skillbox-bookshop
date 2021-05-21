@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "user_contacts")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id" , "user"})
 public class UserContact {
 
     @Id

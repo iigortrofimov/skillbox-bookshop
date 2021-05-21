@@ -1,8 +1,6 @@
 package com.bookshop.mybookshop.domain.user;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity(name = "messages")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "user"})
 public class Message {
 
     @Id

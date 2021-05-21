@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Formula;
 
@@ -25,6 +26,7 @@ public class BookTag {
     @Column(nullable = false)
     private String slug;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "bookTags")
     @JsonIgnore
     private List<Book> books = new ArrayList<>();

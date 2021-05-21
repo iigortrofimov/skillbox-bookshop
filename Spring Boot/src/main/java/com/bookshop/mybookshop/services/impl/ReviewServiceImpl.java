@@ -39,7 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void changeBookReviewRate(Integer reviewid, Integer value) {
+    public Review changeBookReviewRate(Integer reviewid, Integer value) {
         Review review = reviewRepository.findById(reviewid).get();
         ReviewLike newReviewLike = new ReviewLike();
         if (value == 1) {
@@ -51,6 +51,6 @@ public class ReviewServiceImpl implements ReviewService {
         newReviewLike.setReview(review);
         ReviewLike savedLike = reviewLikeRepository.save(newReviewLike);
         review.getLikes().add(savedLike);
-        reviewRepository.save(review);
+        return reviewRepository.save(review);
     }
 }

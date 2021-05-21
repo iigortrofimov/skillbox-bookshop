@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Entity(name = "book_rates")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "book"})
 public class BookRating {
 
     @Id

@@ -2,6 +2,7 @@ package com.bookshop.mybookshop.security.jwt;
 
 import com.bookshop.mybookshop.security.BookStoreUserDetails;
 import com.bookshop.mybookshop.security.BookStoreUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -46,7 +47,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("token")) {
                 token = cookie.getValue();
-                username = jwtUtil.extractUsername(token);
+                try {
+                    username = jwtUtil.extractUsername(token);
+                } catch (ExpiredJwtException exception) {
+                    log.error("JWT Token is expired. Message: {}", exception.getLocalizedMessage());
+                    token = null;
+                }
             }
         }
 

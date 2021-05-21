@@ -43,7 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping
 @AllArgsConstructor
 @Slf4j
-public class MainPageController {
+public class MainController {
 
     private final BookService bookService;
     private final TagService tagService;
@@ -253,15 +253,15 @@ public class MainPageController {
      * @return redirect to book page by slug.
      */
     @PostMapping("/book/{slug}/review/save")
-    public String saveNewBookImage(@RequestParam String comment, @RequestParam(required = false) String authorName,
-                                   @PathVariable("slug") String slug) {
+    public String saveNewBookReview(@RequestParam String comment, @RequestParam(required = false) String authorName,
+                                    @PathVariable("slug") String slug) {
         reviewService.addNewReview(slug, comment, authorName);
         return "redirect:/book/" + slug;
     }
 
     @PostMapping("/book/rateBookReview/{bookSlug}")
     public String handleBookReviewRateChanging(@RequestBody BookReviewRateValue reviewRateValue,
-                                               @PathVariable("bookSlug") String bookSlug ) {
+                                               @PathVariable("bookSlug") String bookSlug) {
         reviewService.changeBookReviewRate(reviewRateValue.getReviewid(), reviewRateValue.getValue());
         return "redirect:/book/" + bookSlug;
     }

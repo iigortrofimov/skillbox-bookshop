@@ -1,6 +1,7 @@
 package com.bookshop.mybookshop.domain.review;
 
 import com.bookshop.mybookshop.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import lombok.ToString;
 
 @Entity(name = "review_likes")
 @Data
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "user", "review"})
 public class ReviewLike {
 
     @Id
@@ -23,6 +24,7 @@ public class ReviewLike {
 
     @ManyToOne
     @JoinColumn(name = "review_id", nullable = false)
+    @JsonIgnore
     private Review review;
 
     @ManyToOne

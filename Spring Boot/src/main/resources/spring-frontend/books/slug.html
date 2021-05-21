@@ -572,7 +572,7 @@ p.error-browser
                                                                         </div>-->
                                     <div class="Comment-footer">
                                         <div sec:authorize="isAuthenticated()" class="Comment-appeal">
-                                            <button class="btn btn_white btn_like" data-btntype="check"
+                                            <button class="btn btn_white btn_like" data-btntype="check" id="likebutton"
                                                     data-check="false" data-btnradio="one1" data-likeid="333"
                                                     th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${comment.id}">
                                                 <span
@@ -618,9 +618,9 @@ p.error-browser
                     <form name="review" method="post" action="#"
                           th:action="${'/book/' + slugBook.slug + '/review/save'}">
                         <p><b>Введите ваш отзыв:</b><Br>
-                            <textarea name="comment" cols="40" rows="3"></textarea></p>
+                            <textarea name="comment" cols="40" rows="3" id="commentarea"></textarea></p>
                         <p><input type="hidden" name="authorName" th:value="${#authorization.getAuthentication().name}" value="0">
-                            <input type="submit" value="Отправить">
+                            <input type="submit" value="Отправить" id="submitcomment">
                             <input type="reset" value="Очистить"></p>
                     </form>
                 </div>
