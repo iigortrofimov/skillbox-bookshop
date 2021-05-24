@@ -1,23 +1,22 @@
 package com.bookshop.mybookshop.data;
 
+import com.bookshop.mybookshop.aspect.logging.annotations.FileDestinationTraceable;
 import com.bookshop.mybookshop.dao.BookFileRepository;
 import com.bookshop.mybookshop.domain.book.BookFile;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
+import com.bookshop.mybookshop.util.UploadsUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResourceStorage {
@@ -40,6 +39,11 @@ public class ResourceStorage {
     private final BookFileRepository bookFileRepository;
 
     /**
+     * UploadsUtils.
+     */
+    private final UploadsUtils uploadsUtils;
+
+    /**
      * Saves book file at {@code this.uploadPath} and returns entire resource URI.
      *
      * @param file book file.
@@ -51,8 +55,7 @@ public class ResourceStorage {
         String resourceURI = null;
         if (!file.isEmpty()) {
             if (!new File(uploadPath).exists()) {
-                Files.createDirectories(Paths.get(uploadPath));
-                log.info("Created folder at: {}", uploadPath);
+                uploadsUtils.createDir(uploadPath);
             }
             String fileName = slug + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(uploadPath, fileName);
@@ -68,6 +71,7 @@ public class ResourceStorage {
      * @param hash book file hash.
      * @return {@code Path} of book file.
      */
+    @FileDestinationTraceable
     public Path receiveBookFilePath(String hash) {
         return Paths.get(bookFileRepository.findBookFileByHash(hash).getPath());
     }

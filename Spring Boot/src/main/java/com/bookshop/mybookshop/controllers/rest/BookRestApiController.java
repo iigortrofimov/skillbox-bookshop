@@ -74,16 +74,4 @@ public class BookRestApiController {
     public ApiResponse<Book> bestsellers() {
         return ApiResponse.setBookApiResponse(bookService.receiveBestSellers());
     }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ApiResponse<Book>> handleMissingServletRequestParameterException(Exception ex) {
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.BAD_REQUEST, "Missing required parameters", ex),
-                HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(BookstoreApiWrongParameterException.class)
-    public ResponseEntity<ApiResponse<Book>> handleBookstoreApiWrongParameterException(Exception ex) {
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.BAD_REQUEST, "Bad parameters", ex),
-                HttpStatus.BAD_REQUEST);
-    }
 }

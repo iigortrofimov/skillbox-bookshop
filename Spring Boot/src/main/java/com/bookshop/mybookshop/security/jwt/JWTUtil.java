@@ -1,5 +1,6 @@
 package com.bookshop.mybookshop.security.jwt;
 
+import com.bookshop.mybookshop.aspect.logging.annotations.JWTTokenTraceable;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -58,7 +59,8 @@ public class JWTUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    @JWTTokenTraceable
+    public Boolean validateToken(String token, UserDetails userDetails) throws ExpiredJwtException {
         String username = extractUsername(token);
         return userDetails.getUsername().equals(username) && !isTokenExpired(token);
     }

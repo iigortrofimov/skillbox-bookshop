@@ -101,7 +101,7 @@
         </filter>
     </appender>
 
-    <logger name="com.bookshop.mybookshop.security.jwt.JWTRequestFilter" level="${app.logging.level.access}"
+    <logger name="com.bookshop.mybookshop.aspect.logging.access.AccessLoginAspects" level="${app.logging.level.access}"
             additivity="false">
         <appender-ref ref="ACCESS_LOG_FILE"/>
     </logger>

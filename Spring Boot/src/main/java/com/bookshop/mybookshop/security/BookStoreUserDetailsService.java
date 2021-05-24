@@ -1,5 +1,6 @@
 package com.bookshop.mybookshop.security;
 
+import com.bookshop.mybookshop.aspect.logging.annotations.JWTUserDetailsTraceable;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,11 @@ public class BookStoreUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         BookStoreUser bookStoreUser = getAuthenticatedUserByEmail(email);
         return new BookStoreUserDetails(bookStoreUser);
+    }
+
+    @JWTUserDetailsTraceable
+    public UserDetails loadUserByUsernameFromJWT(String email) throws UsernameNotFoundException {
+        return loadUserByUsername(email);
     }
 
     private BookStoreUser getAuthenticatedUserByEmail(String email) throws UsernameNotFoundException {

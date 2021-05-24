@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -42,7 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping
 @AllArgsConstructor
-@Slf4j
 public class MainController {
 
     private final BookService bookService;
@@ -232,11 +230,8 @@ public class MainController {
     @GetMapping("/book/download/{hash}")
     public ResponseEntity<ByteArrayResource> downloadBookFile(@PathVariable String hash) throws IOException {
         Path bookPath = resourceStorage.receiveBookFilePath(hash);
-        log.info("book file path: {}", bookPath);
         MediaType mediaType = resourceStorage.receiveMine(hash);
-        log.info("book file mine type: {}", mediaType);
         byte[] data = resourceStorage.receiveBookFileBytes(hash);
-        log.info("book file data len: {}", data.length);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + bookPath.getFileName().toString())
                 .contentType(mediaType)
