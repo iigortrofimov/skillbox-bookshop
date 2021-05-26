@@ -7,7 +7,9 @@ import com.bookshop.mybookshop.dto.BookStatusDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.RatingService;
+import com.bookshop.mybookshop.services.PaymentService;
 import com.bookshop.mybookshop.util.CookieUtils;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/book")
@@ -49,6 +51,8 @@ public class BookShopStatusController {
     private final BookService bookService;
 
     private final RatingService ratingService;
+
+    private final PaymentService paymentService;
 
     private static final String POSTPONED_CONTENTS_COOKIE_NAME = "postponedContents";
 
@@ -129,7 +133,7 @@ public class BookShopStatusController {
      * and saves it into {@link Book}.
      *
      * @param bookRateValue rating value.
-     * @param slug  mnemonical identifier.
+     * @param slug          mnemonical identifier.
      * @return redirect to book page by slug.
      */
     @PostMapping("/changeBookStatus/rating/{slug}")
@@ -177,5 +181,13 @@ public class BookShopStatusController {
         Book book = bookService.receiveBookBySlug(bookSlug);
         book.getStatuses().remove(bookStatus);
         bookService.saveBook(book);
+    }
+
+    @GetMapping("/pay")
+    public RedirectView handlePay(@CookieValue(name = "cartContents", required = false) String cartContents) throws NoSuchAlgorithmException {
+        String[] cookieSlugs = CookieUtils.createArrayWithBookSlugsFromCookie(cartContents);
+        List<Book> booksFromCookieSlugs = bookService.receiveBooksBySlugIn(cookieSlugs);
+        String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
+        return new RedirectView(paymentUrl);
     }
 }

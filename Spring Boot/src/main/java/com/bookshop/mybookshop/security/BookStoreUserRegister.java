@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,11 @@ public class BookStoreUserRegister {
     private final JWTUtil jwtUtil;
 
     public BookStoreUser registerNewUser(RegistrationForm registrationForm) {
-        if (bookStoreUserRepository.findByEmail(registrationForm.getEmail()) == null) {
+
+        BookStoreUser userByEmail = bookStoreUserRepository.findByEmail(registrationForm.getEmail());
+        BookStoreUser userByPhone = bookStoreUserRepository.findByPhone(registrationForm.getPhone());
+
+        if (userByEmail == null && userByPhone == null) {
             BookStoreUser newUser = new BookStoreUser();
             newUser.setEmail(registrationForm.getEmail());
             newUser.setName(registrationForm.getName());
@@ -28,8 +33,9 @@ public class BookStoreUserRegister {
             newUser.setPhone(registrationForm.getPhone());
             newUser.setProvider(Provider.LOCAL);
             return bookStoreUserRepository.save(newUser);
+        } else {
+            return userByPhone;
         }
-        return null;
     }
 
     public ContactConfirmationResponse login(ContactConfirmationPayload payload) {
@@ -45,6 +51,18 @@ public class BookStoreUserRegister {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getContact(),
                 payload.getCode()));
         BookStoreUserDetails userDetails = (BookStoreUserDetails) bookStoreUserDetailsService.loadUserByUsername(payload.getContact());
+        String jwtToken = jwtUtil.generateToken(userDetails);
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        response.setResult(jwtToken);
+        return response;
+    }
+
+    public ContactConfirmationResponse jwtLoginByPhoneNumber(ContactConfirmationPayload payload) {
+        RegistrationForm registrationForm = new RegistrationForm();
+        registrationForm.setPhone(payload.getContact());
+        registrationForm.setPassword(payload.getCode());
+        registerNewUser(registrationForm);
+        UserDetails userDetails = bookStoreUserDetailsService.loadUserByUsername(payload.getContact());
         String jwtToken = jwtUtil.generateToken(userDetails);
         ContactConfirmationResponse response = new ContactConfirmationResponse();
         response.setResult(jwtToken);

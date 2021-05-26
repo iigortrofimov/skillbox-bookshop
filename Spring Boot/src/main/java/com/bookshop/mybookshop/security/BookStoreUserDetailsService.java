@@ -1,7 +1,6 @@
 package com.bookshop.mybookshop.security;
 
 import com.bookshop.mybookshop.aspect.logging.annotations.JWTUserDetailsTraceable;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,20 +14,22 @@ public class BookStoreUserDetailsService implements UserDetailsService {
     private final BookStoreUserRepository bookStoreUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        BookStoreUser bookStoreUser = getAuthenticatedUserByEmail(email);
-        return new BookStoreUserDetails(bookStoreUser);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        BookStoreUser bookStoreUser = bookStoreUserRepository.findByEmail(login);
+        if (bookStoreUser != null) {
+            return new BookStoreUserDetails(bookStoreUser);
+        }
+        bookStoreUser = bookStoreUserRepository.findByPhone(login);
+        if (bookStoreUser != null) {
+            return new PhoneNumberUserDetails(bookStoreUser);
+        } else {
+            throw new UsernameNotFoundException("User not found!");
+        }
     }
 
     @JWTUserDetailsTraceable
-    public UserDetails loadUserByUsernameFromJWT(String email) throws UsernameNotFoundException {
-        return loadUserByUsername(email);
-    }
-
-    private BookStoreUser getAuthenticatedUserByEmail(String email) throws UsernameNotFoundException {
-        return Optional.ofNullable(bookStoreUserRepository
-                .findByEmail(email))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    public UserDetails loadUserByUsernameFromJWT(String login) throws UsernameNotFoundException {
+        return loadUserByUsername(login);
     }
 
     public BookStoreUser processOAuthPostLogin(String email, String name) {

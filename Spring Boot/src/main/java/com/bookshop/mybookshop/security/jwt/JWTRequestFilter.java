@@ -1,6 +1,5 @@
 package com.bookshop.mybookshop.security.jwt;
 
-import com.bookshop.mybookshop.security.BookStoreUserDetails;
 import com.bookshop.mybookshop.security.BookStoreUserDetailsService;
 import com.bookshop.mybookshop.security.SecurityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -29,7 +29,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
-        BookStoreUserDetails userDetails;
+        UserDetails userDetails;
         String token = null;
         String username = null;
         Cookie[] cookies = request.getCookies();
@@ -70,7 +70,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-        userDetails = (BookStoreUserDetails) bookStoreUserDetailsService.loadUserByUsernameFromJWT(username);
+        userDetails = bookStoreUserDetailsService.loadUserByUsernameFromJWT(username);
 
         if (!jwtUtil.validateToken(token, userDetails)) {
             filterChain.doFilter(request, response);

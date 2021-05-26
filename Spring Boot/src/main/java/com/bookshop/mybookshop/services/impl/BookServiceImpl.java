@@ -2,8 +2,11 @@ package com.bookshop.mybookshop.services.impl;
 
 import com.bookshop.mybookshop.dao.BookRepository;
 import com.bookshop.mybookshop.dao.GenreRepository;
+import com.bookshop.mybookshop.domain.author.Author;
 import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.Genre;
+import com.bookshop.mybookshop.dto.google.api.books.Item;
+import com.bookshop.mybookshop.dto.google.api.books.Root;
 import com.bookshop.mybookshop.exception.BookstoreApiWrongParameterException;
 import com.bookshop.mybookshop.services.BookService;
 import java.time.LocalDateTime;
@@ -11,18 +14,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+
     private final GenreRepository genreRepository;
+
+    private final RestTemplate restTemplate;
+
+    @Value("${google.books.api.key}")
+    private String bookApiKey;
 
     @Override
     public List<Book> receiveAllBooks() {
@@ -155,5 +166,40 @@ public class BookServiceImpl implements BookService {
     @Override
     public void saveBook(Book book) {
         bookRepository.save(book);
+    }
+
+    public List<Book> getPageOfGoogleBooksApiSearchResult(String searchWord, Integer offset, Integer limit) {
+        String REQUEST_URL = String.format(
+                "https://www.googleapis.com/books/v1/volumes?q=%s&key=%s&startIndex=%d&maxResults=%d",
+                searchWord, bookApiKey, offset, limit);
+
+        Root root = restTemplate.getForEntity(REQUEST_URL, Root.class).getBody();
+        ArrayList<Book> list = new ArrayList<>();
+        if (root != null) {
+            for (Item item : root.getItems()) {
+                Book book = new Book();
+                if (item.getVolumeInfo() != null) {
+                    book.getAuthors().add(new Author(item.getVolumeInfo().getAuthors()));
+                    book.setTitle(item.getVolumeInfo().getTitle());
+                    if (item.getVolumeInfo().getImageLinks() != null) {
+                        book.setImage(item.getVolumeInfo().getImageLinks().getSmallThumbnail());
+                    }
+                }
+                if (item.getSaleInfo() != null) {
+                    if (item.getSaleInfo().getRetailPrice() != null) {
+                        int price = (int) item.getSaleInfo().getRetailPrice().getAmount();
+                        book.setPrice(price);
+                        if (item.getSaleInfo().getListPrice() != null) {
+                            int oldPrice = (int) item.getSaleInfo().getListPrice().getAmount();
+                            int discount = 100 - (price * 100 / oldPrice);
+                            book.setDiscount(discount);
+
+                        }
+                    }
+                }
+                list.add(book);
+            }
+        }
+        return list;
     }
 }

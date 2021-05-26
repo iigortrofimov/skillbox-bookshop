@@ -50,4 +50,6 @@ public interface BookService {
     List<Book> receiveBooksBySlugIn(String[] slugs);
 
     void saveBook(Book book);
+
+    List<Book> getPageOfGoogleBooksApiSearchResult(String searchWord, Integer offset, Integer limit);
 }

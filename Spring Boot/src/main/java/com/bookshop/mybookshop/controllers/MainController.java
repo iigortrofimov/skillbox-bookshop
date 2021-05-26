@@ -142,7 +142,7 @@ public class MainController {
         if (searchWordDto != null) {
             model.addAttribute("searchWordDto", searchWordDto);
             model.addAttribute("searchResults",
-                    bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), 0, 20).getContent());
+                    bookService.getPageOfGoogleBooksApiSearchResult(searchWordDto.getContent(), 0, 20));
             return "search/index";
         } else {
             throw new EmptySearchException("Search isn't possible by NULL");
@@ -154,7 +154,7 @@ public class MainController {
     public BooksPageDto receiveNextSearchBookPage(@PathVariable("searchWord") SearchWordDto searchWordDto,
                                                   @RequestParam("offset") Integer offset,
                                                   @RequestParam("limit") Integer limit) {
-        return new BooksPageDto(bookService.receivePageOfSearchResultBooks(searchWordDto.getContent(), offset, limit).getContent());
+        return new BooksPageDto(bookService.getPageOfGoogleBooksApiSearchResult(searchWordDto.getContent(), offset, limit));
     }
 
     @GetMapping("/tags/{tagName}")

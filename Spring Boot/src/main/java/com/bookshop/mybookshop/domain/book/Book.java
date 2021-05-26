@@ -66,12 +66,12 @@ public class Book extends RepresentationModel<Book> {
     @ColumnDefault("0")
     @ApiModelProperty("book discount in %")
     @JsonProperty("discount")
-    private Integer discount;
+    private int discount;
 
     @Column(nullable = false)
     @ApiModelProperty("book price")
     @JsonProperty("price")
-    private Integer price;
+    private int price;
 
     @EqualsAndHashCode.Exclude
     @ManyToMany

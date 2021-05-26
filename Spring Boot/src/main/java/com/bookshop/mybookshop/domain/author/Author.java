@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -20,7 +21,14 @@ import org.springframework.hateoas.RepresentationModel;
 @EqualsAndHashCode(callSuper = false)
 @ToString(exclude = {"id", "books"})
 @Entity(name = "authors")
+@NoArgsConstructor
 public class Author extends RepresentationModel<Author> {
+
+    public Author(List<String> authors) {
+        if (authors != null) {
+            firstName = authors.toString();
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
