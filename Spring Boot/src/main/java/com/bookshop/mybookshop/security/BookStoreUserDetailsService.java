@@ -39,6 +39,7 @@ public class BookStoreUserDetailsService implements UserDetailsService {
             newUser.setEmail(email);
             newUser.setName(name);
             newUser.setProvider(Provider.GOOGLE);
+            newUser.setBalance(0.0);
             return bookStoreUserRepository.save(newUser);
         }
         return existUser;

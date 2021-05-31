@@ -1,6 +1,10 @@
 package com.bookshop.mybookshop.security;
 
+import com.bookshop.mybookshop.dao.UserDataEditionRepository;
+import com.bookshop.mybookshop.domain.user.UserDataEdition;
+import com.bookshop.mybookshop.dto.ChangeUserDataForm;
 import com.bookshop.mybookshop.security.jwt.JWTUtil;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,12 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor
 public class BookStoreUserRegister {
 
     private final BookStoreUserRepository bookStoreUserRepository;
+    private final UserDataEditionRepository userDataEditionRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final BookStoreUserDetailsService bookStoreUserDetailsService;
@@ -32,6 +38,7 @@ public class BookStoreUserRegister {
             newUser.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
             newUser.setPhone(registrationForm.getPhone());
             newUser.setProvider(Provider.LOCAL);
+            newUser.setBalance(0.00);
             return bookStoreUserRepository.save(newUser);
         } else {
             return userByPhone;
@@ -72,14 +79,54 @@ public class BookStoreUserRegister {
     public BookStoreUser getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof BookStoreUserDetails) {
-            return ((BookStoreUserDetails) principal).getBookStoreUser();
+            String username = ((BookStoreUserDetails) principal).getUsername();
+            if (username.contains("@")) {
+                return bookStoreUserRepository.findByEmail(username);
+            }
         } else if (principal instanceof CustomOAuth2User) {
-            BookStoreUser bookStoreUser = new BookStoreUser();
-            bookStoreUser.setName(((CustomOAuth2User) principal).getName());
-            bookStoreUser.setEmail(((CustomOAuth2User) principal).getEmail());
-            return bookStoreUser;
+            return bookStoreUserRepository.findByEmail(((CustomOAuth2User) principal).getEmail());
         }
         BookStoreUserDetails bookStoreUserDetails = (BookStoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return bookStoreUserDetails.getBookStoreUser();
+    }
+
+    public boolean changePassword(ChangePasswordForm changePasswordForm, Model model) {
+        BookStoreUser userByEmail = bookStoreUserRepository.findByEmail(changePasswordForm.getEmail());
+        BookStoreUser userByPhone = bookStoreUserRepository.findByPhone(changePasswordForm.getPhone());
+        if (userByEmail.equals(userByPhone) && passwordEncoder.matches(changePasswordForm.getOldPassword(), userByEmail.getPassword())) {
+            userByEmail.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
+            bookStoreUserRepository.save(userByEmail);
+            return true;
+        } else {
+            model.addAttribute("changePassError", true);
+            return false;
+        }
+    }
+
+    public void saveTempUserDataChanges(ChangeUserDataForm changeUserDataForm, String changeUuid, String userEmail) {
+        UserDataEdition userDataEdition = new UserDataEdition(changeUserDataForm, changeUuid, userEmail);
+        userDataEditionRepository.save(userDataEdition);
+    }
+
+    public boolean applyUserDataChanges(String uuid) {
+        UserDataEdition userDataEditionFromDB = userDataEditionRepository.findById(UUID.fromString(uuid)).orElse(null);
+        if (userDataEditionFromDB != null) {
+            BookStoreUser user = bookStoreUserRepository.findByEmail(userDataEditionFromDB.getUserDetailEmail());
+            if (userDataEditionFromDB.getName() != null) {
+                user.setName(userDataEditionFromDB.getName());
+            }
+            if (userDataEditionFromDB.getMail() != null) {
+                user.setEmail(userDataEditionFromDB.getMail());
+            }
+            if (userDataEditionFromDB.getPhone() != null) {
+                user.setPhone(userDataEditionFromDB.getPhone());
+            }
+            if (userDataEditionFromDB.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(userDataEditionFromDB.getPassword()));
+            }
+            bookStoreUserRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

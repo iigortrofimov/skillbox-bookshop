@@ -4,12 +4,12 @@ import com.bookshop.mybookshop.domain.book.Book;
 import com.bookshop.mybookshop.domain.book.BookStatus;
 import com.bookshop.mybookshop.dto.BookRateValue;
 import com.bookshop.mybookshop.dto.BookStatusDto;
+import com.bookshop.mybookshop.dto.PaymentResponse;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.services.BookService;
-import com.bookshop.mybookshop.services.RatingService;
 import com.bookshop.mybookshop.services.PaymentService;
+import com.bookshop.mybookshop.services.RatingService;
 import com.bookshop.mybookshop.util.CookieUtils;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/book")
@@ -46,6 +46,16 @@ public class BookShopStatusController {
     @ModelAttribute("searchWordDto")
     public SearchWordDto searchWordDto() {
         return new SearchWordDto();
+    }
+
+    @ModelAttribute("totalSum")
+    public Double totalSum() {
+        return 0.00;
+    }
+
+    @ModelAttribute("totalOldSum")
+    public Double totalOldSum() {
+        return 0.00;
     }
 
     private final BookService bookService;
@@ -68,6 +78,8 @@ public class BookShopStatusController {
             String[] arrayWithBookSlugsFromCookie = CookieUtils.createArrayWithBookSlugsFromCookie(cartContents);
             List<Book> booksFromCookiesSlugs = bookService.receiveBooksBySlugIn(arrayWithBookSlugsFromCookie);
             model.addAttribute("bookCart", booksFromCookiesSlugs);
+            model.addAttribute("totalSum", booksFromCookiesSlugs.stream().mapToDouble(Book::discountedPrice).sum());
+            model.addAttribute("totalOldSum", booksFromCookiesSlugs.stream().mapToDouble(Book::getPrice).sum());
         }
         return "cart";
     }
@@ -103,27 +115,27 @@ public class BookShopStatusController {
 
 
     @PostMapping("/changeBookStatus/cart/remove/{slug}")
-    public String handleRemoveBookFromCartByRequest(@PathVariable("slug") String slug, Model model,
+    public String handleRemoveBookFromCartByRequest(@PathVariable("slug") String slug, RedirectAttributes redirectAttributes,
                                                     @CookieValue(name = "cartContents", required = false)
                                                             String cartContents, HttpServletResponse response) {
         if (cartContents != null && !cartContents.equals("")) {
             removeBookBySlugFromCookieContentAndSetModelAttr(cartContents, slug, CART_CONTENTS_COOKIE_NAME,
-                    response, model, BookStatus.CART);
+                    response, redirectAttributes, BookStatus.CART);
         } else {
-            model.addAttribute("isCartContentsEmpty", true);
+            redirectAttributes.addFlashAttribute("isCartContentsEmpty", true);
         }
         return "redirect:/book/cart";
     }
 
     @PostMapping("/changeBookStatus/postponed/remove/{slug}")
-    public String handleRemoveBookFromPostponedListByRequest(@PathVariable("slug") String slug, Model model,
+    public String handleRemoveBookFromPostponedListByRequest(@PathVariable("slug") String slug, RedirectAttributes redirectAttributes,
                                                              @CookieValue(name = "postponedContents", required = false)
                                                                      String postponedContents, HttpServletResponse response) {
         if (postponedContents != null && !postponedContents.equals("")) {
             removeBookBySlugFromCookieContentAndSetModelAttr(postponedContents, slug, POSTPONED_CONTENTS_COOKIE_NAME,
-                    response, model, BookStatus.KEPT);
+                    response, redirectAttributes, BookStatus.KEPT);
         } else {
-            model.addAttribute("isPostponedListEmpty", true);
+            redirectAttributes.addFlashAttribute("isPostponedListEmpty", true);
         }
         return "redirect:/book/postponed";
     }
@@ -169,13 +181,13 @@ public class BookShopStatusController {
     }
 
     private void removeBookBySlugFromCookieContentAndSetModelAttr(String contentFromCookie, String bookSlug, String cookieName,
-                                                                  HttpServletResponse response, Model model, BookStatus bookStatus) {
+                                                                  HttpServletResponse response, RedirectAttributes redirectAttributes, BookStatus bookStatus) {
         ArrayList<String> cookieBooks = new ArrayList<>(Arrays.asList(contentFromCookie.split("/")));
         cookieBooks.remove(bookSlug);
         Cookie cookie = new Cookie(cookieName, String.join("/", cookieBooks));
         cookie.setPath("/book");
         response.addCookie(cookie);
-        model.addAttribute("is" + cookieName.substring(0, 1).toUpperCase() + cookieName.substring(1) +
+        redirectAttributes.addFlashAttribute("is" + cookieName.substring(0, 1).toUpperCase() + cookieName.substring(1) +
                 "Empty", false);
 
         Book book = bookService.receiveBookBySlug(bookSlug);
@@ -184,10 +196,34 @@ public class BookShopStatusController {
     }
 
     @GetMapping("/pay")
-    public RedirectView handlePay(@CookieValue(name = "cartContents", required = false) String cartContents) throws NoSuchAlgorithmException {
-        String[] cookieSlugs = CookieUtils.createArrayWithBookSlugsFromCookie(cartContents);
+    public String handlePay(@CookieValue(name = "cartContents", required = false) String cartContents,
+                            @CookieValue(name = "postponedContents", required = false) String postponedContents,
+                            HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        String bookContent;
+        if (cartContents != null) {
+            bookContent = cartContents;
+        } else {
+            bookContent = postponedContents;
+        }
+        String[] cookieSlugs = CookieUtils.createArrayWithBookSlugsFromCookie(bookContent);
         List<Book> booksFromCookieSlugs = bookService.receiveBooksBySlugIn(cookieSlugs);
-        String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
-        return new RedirectView(paymentUrl);
+
+        PaymentResponse paymentResponse = paymentService.payFromUserAccount(booksFromCookieSlugs);
+        if (paymentResponse.isSuccess()) {
+            Cookie cookie;
+            if (cartContents != null) {
+                cookie = new Cookie("cartContents", null);
+            } else {
+                cookie = new Cookie("postponedContents", null);
+            }
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            redirectAttributes.addFlashAttribute("paymentMessage", paymentResponse.getMessage());
+            return "redirect:/";
+
+        } else {
+            redirectAttributes.addFlashAttribute("paymentMessage", paymentResponse.getMessage());
+            return "redirect:/";
+        }
     }
 }

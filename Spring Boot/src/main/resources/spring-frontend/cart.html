@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/assets/css/extra.min.css?v=22193648"/>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <script src="/assets/js/scripts.min.js?v=22193648"></script>
+    <script defer src="/assets/js/scripts.min.js?v=22193648"></script>
 </head>
 <body class="Site">
 <!--if lt IE 8
@@ -145,9 +145,11 @@ p.error-browser
                 <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <strong class="Cart-title">Итого:
-                        </strong><span class="Cart-price">534 р.</span><span class="Cart-price_old">658 р.</span>
+                        </strong><span class="Cart-price" th:text="${totalSum}">>534 р.</span><span
+                            class="Cart-price_old"
+                            th:text="${totalOldSum}">658 р.</span>
                     </div>
-                    <div class="Cart-block"><a class="btn btn_success btn_md" href="/order.html" th:href="@{/book/pay}" >Купить</a>
+                    <div class="Cart-block"><a class="btn btn_success btn_md" href="/order.html" th:href="@{/book/pay}">Купить</a>
                     </div>
                 </div>
             </form>

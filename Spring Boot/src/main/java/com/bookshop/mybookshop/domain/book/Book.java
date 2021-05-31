@@ -18,7 +18,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +46,7 @@ public class Book extends RepresentationModel<Book> {
 
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    @ManyToMany(mappedBy = "books", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "books")
     private List<Author> authors = new ArrayList<>();
 
     @Column(nullable = false)

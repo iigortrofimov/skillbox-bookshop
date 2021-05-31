@@ -7,17 +7,21 @@ import com.bookshop.mybookshop.domain.book.BookTag;
 import com.bookshop.mybookshop.domain.review.Review;
 import com.bookshop.mybookshop.dto.BookReviewRateValue;
 import com.bookshop.mybookshop.dto.BooksPageDto;
+import com.bookshop.mybookshop.dto.ChangeUserDataForm;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.exception.EmptySearchException;
 import com.bookshop.mybookshop.services.AuthorService;
 import com.bookshop.mybookshop.services.BookService;
 import com.bookshop.mybookshop.services.GenreService;
+import com.bookshop.mybookshop.services.PaymentService;
 import com.bookshop.mybookshop.services.RatingService;
 import com.bookshop.mybookshop.services.ReviewService;
 import com.bookshop.mybookshop.services.TagService;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping
@@ -50,6 +55,7 @@ public class MainController {
     private final ResourceStorage resourceStorage;
     private final ReviewService reviewService;
     private final RatingService ratingService;
+    private final PaymentService paymentService;
 
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
@@ -259,5 +265,11 @@ public class MainController {
                                                @PathVariable("bookSlug") String bookSlug) {
         reviewService.changeBookReviewRate(reviewRateValue.getReviewid(), reviewRateValue.getValue());
         return "redirect:/book/" + bookSlug;
+    }
+
+    @PostMapping("/topupaccount")
+    public RedirectView handleTopUpAccount(@RequestParam Double sum, Principal principal) throws NoSuchAlgorithmException {
+        String paymentUrl = paymentService.topUpUserAccount(sum, principal);
+        return new RedirectView(paymentUrl);
     }
 }

@@ -1,19 +1,24 @@
 package com.bookshop.mybookshop.security;
 
 import com.bookshop.mybookshop.domain.SmsCode;
+import com.bookshop.mybookshop.dto.ChangeUserDataForm;
 import com.bookshop.mybookshop.dto.SearchWordDto;
+import com.bookshop.mybookshop.services.MessageSenderService;
+import java.security.Principal;
+import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +28,7 @@ public class AuthUserController {
 
     private final SmsService smsService;
 
-    private final JavaMailSender mailSender;
+    private final MessageSenderService messageSenderService;
 
     @ModelAttribute("searchWordDto")
     public SearchWordDto searchWordDto() {
@@ -39,6 +44,12 @@ public class AuthUserController {
     public String handleSignUp(Model model) {
         model.addAttribute("regForm", new RegistrationForm());
         return "signup";
+    }
+
+    @GetMapping("/changepassword")
+    public String handleGetChangePassword(Model model) {
+        model.addAttribute("changePassForm", new ChangePasswordForm());
+        return "changepassword";
     }
 
     @PostMapping("/requestContactConfirmation")
@@ -59,14 +70,7 @@ public class AuthUserController {
     @ResponseBody
     public ContactConfirmationResponse handleRequestEmailConfirmation(@RequestBody ContactConfirmationPayload payload) {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("special-mail-for-dev@mail.ru");
-        message.setTo(payload.getContact());
-        SmsCode code = new SmsCode(smsService.generateCode(), 300);
-        smsService.saveNewCode(code);
-        message.setSubject("BookStore email verification.");
-        message.setText("Verification code: " + code.getCode());
-        mailSender.send(message);
+        messageSenderService.sendCodeViaEmail(payload.getContact(), "BookStore email verification.");
         response.setResult("true");
         return response;
     }
@@ -85,6 +89,14 @@ public class AuthUserController {
     public String handleUserRegistration(RegistrationForm registrationForm, Model model) {
         registrationService.registerNewUser(registrationForm);
         model.addAttribute("regOk", true);
+        return "signin";
+    }
+
+    @PostMapping("/changepass")
+    public String handlePostChangePassword(ChangePasswordForm changePasswordForm, Model model) {
+        if (registrationService.changePassword(changePasswordForm, model)) {
+            model.addAttribute("changePassOk", true);
+        }
         return "signin";
     }
 
@@ -113,13 +125,15 @@ public class AuthUserController {
     }
 
     @GetMapping("/my")
-    public String handleMy() {
+    public String handleMy(Model model) {
+        model.addAttribute("curUser", registrationService.getCurrentUser());
         return "my";
     }
 
     @GetMapping("/profile")
     public String handleProfile(Model model) {
         model.addAttribute("curUser", registrationService.getCurrentUser());
+        model.addAttribute("changeUserDataForm", new ChangeUserDataForm());
         return "profile";
     }
 
@@ -131,5 +145,41 @@ public class AuthUserController {
     @GetMapping("/401")
     public String handle401() {
         return "401";
+    }
+
+    @PostMapping("/changeUserData")
+    public String handleChangeUserDataRequest(ChangeUserDataForm changeUserDataForm, RedirectAttributes redirectAttributes,
+                                              Principal principal) {
+        if (!changeUserDataForm.getPassword().equals(changeUserDataForm.getPasswordReply())) {
+            redirectAttributes.addFlashAttribute("changedUserDataMessage", "Пароли не совпадают.");
+            return "redirect:/";
+        }
+        String email = defineUserEmail(principal);
+        String changeUuid = UUID.randomUUID().toString();
+
+        registrationService.saveTempUserDataChanges(changeUserDataForm, changeUuid, email);
+        messageSenderService.sendMessageViaEmail(email, "Confirm data changing", "Для подтверждения изменений перейдите по ссылке " +
+                "http://localhost:8082/confirmchanges/" + changeUuid);
+
+        redirectAttributes.addFlashAttribute("changedUserDataMessage", "Ссылка для подтверждения учетных данных отправлена на ваш email.");
+        return "redirect:/";
+    }
+
+    @GetMapping("/confirmchanges/{uuid}")
+    public String handleConfirmDataChangesPage(@PathVariable String uuid, RedirectAttributes redirectAttributes) {
+        if (registrationService.applyUserDataChanges(uuid)) {
+            redirectAttributes.addFlashAttribute("changedUserDataMessage", "Учетные данные изменены.");
+        } else {
+            redirectAttributes.addFlashAttribute("changedUserDataMessage", "Учетная запись не найдена.");
+        }
+        return "redirect:/";
+    }
+
+    private String defineUserEmail(Principal principal) {
+        if (principal instanceof OAuth2AuthenticationToken) {
+            return ((CustomOAuth2User) ((OAuth2AuthenticationToken) principal).getPrincipal()).getEmail();
+        } else {
+            return principal.getName();
+        }
     }
 }

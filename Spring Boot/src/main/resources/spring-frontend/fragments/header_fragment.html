@@ -38,6 +38,10 @@
                     </div>
                     <span th:if="${searchError}" th:text="${searchError.getLocalizedMessage()}"
                           style="color: red"></span>
+                    <span th:if="${paymentMessage}" th:text="${paymentMessage}"
+                          style="color: red"></span>
+                    <span th:if="${changedUserDataMessage}" th:text="${changedUserDataMessage}"
+                          style="color: blue"></span>
                 </div>
                 <div class="row-block Header-cart">
                     <div class="CartBlock"><a class="CartBlock-block"

@@ -1,12 +1,15 @@
 package com.bookshop.mybookshop.security;
 
 import com.bookshop.mybookshop.domain.review.Review;
+import com.bookshop.mybookshop.domain.user.BalanceTransaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +22,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "usr")
 @Data
-@ToString(exclude = {"id", "reviews"})
+@ToString(exclude = {"id", "reviews", "transactions"})
 public class BookStoreUser {
 
     @Id
@@ -30,6 +33,9 @@ public class BookStoreUser {
     private String phone;
     private String password;
 
+    @Column(columnDefinition = "Decimal(10,2) default '00.00'")
+    private Double balance;
+
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -37,4 +43,8 @@ public class BookStoreUser {
 
     @Enumerated(EnumType.STRING)
     private Provider provider;
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<BalanceTransaction> transactions = new ArrayList<>();
 }
