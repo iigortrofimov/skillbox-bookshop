@@ -7,7 +7,6 @@ import com.bookshop.mybookshop.domain.book.BookTag;
 import com.bookshop.mybookshop.domain.review.Review;
 import com.bookshop.mybookshop.dto.BookReviewRateValue;
 import com.bookshop.mybookshop.dto.BooksPageDto;
-import com.bookshop.mybookshop.dto.ChangeUserDataForm;
 import com.bookshop.mybookshop.dto.GenreDto;
 import com.bookshop.mybookshop.dto.SearchWordDto;
 import com.bookshop.mybookshop.exception.EmptySearchException;
